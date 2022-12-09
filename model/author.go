@@ -42,3 +42,9 @@ func GetAuthorCountByName(name string) (int64, error) {
 	return Mongo.Collection(Author{}.CollectionName()).
 		CountDocuments(context.Background(), bson.D{{"name", name}})
 }
+
+func UpdateAuthor(author *Author) error {
+	_, err := Mongo.Collection(Author{}.CollectionName()).
+		InsertOne(context.Background(), author)
+	return err
+}

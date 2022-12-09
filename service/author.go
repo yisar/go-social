@@ -80,6 +80,24 @@ func Register(c *gin.Context) {
 		})
 		return
 	}
+
+	ub := &model.Author{
+		Name: json.Name,
+		Pwd: json.Pwd,
+		Email: json.Email,
+	}
+
+	err2 := model.UpdateAuthor(ub)
+
+	if err2 != nil {
+		log.Printf("[DB ERROR]:%v\n", err2)
+		c.JSON(http.StatusOK, gin.H{
+			"code": -1,
+			"msg":  "数据库错误",
+		})
+		return
+	}
+
 	c.JSON(http.StatusOK, gin.H{
 		"code": 200,
 		"msg":  "注册成功",
