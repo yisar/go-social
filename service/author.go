@@ -44,6 +44,48 @@ func Login(c *gin.Context) {
 	})
 }
 
+func Regisiter(c *gin.Context) {
+	json := model.Author{}
+ 	c.BindJSON(&json)
+ 	log.Printf("%v",&json)
+	if json.Name == "" || json.Pwd == "" || json.Email == "" {
+		c.JSON(http.StatusOK, gin.H{
+			"code": -1,
+			"msg":  "都是必填的！",
+		})
+		return
+	}
+	cnt, err := model.GetAuthorCountByEmail(json.Email)
+	if err != nil {
+		log.Printf("[DB ERROR]:%v\n", err)
+		return
+	}
+	if cnt > 0 {
+		c.JSON(http.StatusOK, gin.H{
+			"code": -1,
+			"msg":  "当前邮箱已被注册",
+		})
+		return
+	}
+
+	cnt2, err := model.GetAuthorCountByName(json.Email)
+	if err != nil {
+		log.Printf("[DB ERROR]:%v\n", err)
+		return
+	}
+	if cnt2 > 0 {
+		c.JSON(http.StatusOK, gin.H{
+			"code": -1,
+			"msg":  "当前笔名已被注册",
+		})
+		return
+	}
+	c.JSON(http.StatusOK, gin.H{
+		"code": 200,
+		"msg":  "注册成功",
+	})
+}
+
 func UserDetail(c *gin.Context) {
 	u, _ := c.Get("user")
 	log.Printf("[DB ERROR]:%v\n", u)

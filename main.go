@@ -30,6 +30,7 @@ func Router() *gin.Engine {
 
 	// 用户登录
 	r.POST("/login", service.Login)
+	r.POST("/register", service.Regisiter)
 	// 发送验证码
 	r.POST("/sendcode", service.SendCode)
 

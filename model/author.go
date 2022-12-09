@@ -37,3 +37,8 @@ func GetAuthorCountByEmail(email string) (int64, error) {
 	return Mongo.Collection(Author{}.CollectionName()).
 		CountDocuments(context.Background(), bson.D{{"email", email}})
 }
+
+func GetAuthorCountByName(name string) (int64, error) {
+	return Mongo.Collection(Author{}.CollectionName()).
+		CountDocuments(context.Background(), bson.D{{"name", name}})
+}
