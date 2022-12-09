@@ -19,7 +19,7 @@ func AuthCheck() gin.HandlerFunc {
 			})
 			return
 		}
-		c.Set("user_claims", userClaims)
+		c.Set("user", userClaims)
 		c.Next()
 	}
 }
@@ -33,10 +33,10 @@ func Router() *gin.Engine {
 	// 发送验证码
 	r.POST("/sendcode", service.SendCode)
 
-	auth := r.Group("/auth", AuthCheck())
+	auth := r.Group("/author", AuthCheck())
 
 	// 用户详情
-	auth.GET("/user/detail", service.UserDetail)
+	auth.GET("/detail", service.UserDetail)
 
 	return r
 }

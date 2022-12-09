@@ -7,10 +7,10 @@ import (
 )
 
 type Author struct {
-	Identity  string `bson:"_id"`
-	Name   string `bson:"name"`
-	Pwd  string `bson:"pwd"`
-	Email     string `bson:"email"`
+	Identity  string `json:"_id"`
+	Name   string `json:"name"`
+	Pwd  string `json:"pwd"`
+	Email     string `json:"email"`
 }
 
 func (Author) CollectionName() string {

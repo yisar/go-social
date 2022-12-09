@@ -45,9 +45,10 @@ func Login(c *gin.Context) {
 }
 
 func UserDetail(c *gin.Context) {
-	u, _ := c.Get("uid")
+	u, _ := c.Get("user")
+	log.Printf("[DB ERROR]:%v\n", u)
 	uc := u.(*helper.UserClaims)
-	Author, err := model.GetAuthorByIdentity(uc.Identity)
+	author, err := model.GetAuthorByIdentity(uc.Identity)
 	if err != nil {
 		log.Printf("[DB ERROR]:%v\n", err)
 		c.JSON(http.StatusOK, gin.H{
@@ -59,7 +60,7 @@ func UserDetail(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{
 		"code": 200,
 		"msg":  "数据加载成功",
-		"data": Author,
+		"data": author,
 	})
 }
 
