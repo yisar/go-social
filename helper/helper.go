@@ -7,7 +7,6 @@ import (
 	"github.com/dgrijalva/jwt-go"
 	"github.com/jordan-wright/email"
 	"go.mongodb.org/mongo-driver/bson/primitive"
-	"im/define"
 	"net/smtp"
 )
 
@@ -65,11 +64,11 @@ func AnalyseToken(tokenString string) (*UserClaims, error) {
 // 发送验证码
 func SendCode(toUserEmail, code string) error {
 	e := email.NewEmail()
-	e.From = "Get <getcharzhaopan@163.com>"
+	e.From = "Get <nugei@foxmail.com>"
 	e.To = []string{toUserEmail}
 	e.Subject = "验证码已发送，请查收"
 	e.HTML = []byte("您的验证码：<b>" + code + "</b>")
-	return e.SendWithTLS("smtp.163.com:465",
-		smtp.PlainAuth("", "getcharzhaopan@163.com", define.MailPassword, "smtp.163.com"),
-		&tls.Config{InsecureSkipVerify: true, ServerName: "smtp.163.com"})
+	return e.SendWithTLS("smtp.qq.com:465",
+		smtp.PlainAuth("", "nugei@foxmail.com", "changhao2333", "smtp.163.com"),
+		&tls.Config{InsecureSkipVerify: true, ServerName: "smtp.qq.com"})
 }

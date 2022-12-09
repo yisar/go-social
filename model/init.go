@@ -1,4 +1,4 @@
-package models
+package model
 
 import (
 	"context"
@@ -16,10 +16,10 @@ func InitMongo() *mongo.Database {
 	client, err := mongo.Connect(ctx, options.Client().SetAuth(options.Credential{
 		Username: "admin",
 		Password: "admin",
-	}).ApplyURI("mongodb://192.168.1.8:27017"))
+	}).ApplyURI("mongodb://localhost:27017"))
 	if err != nil {
 		log.Println("Connection MongoDB Error:", err)
 		return nil
 	}
-	return client.Database("im")
+	return client.Database("nugei")
 }

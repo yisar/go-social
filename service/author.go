@@ -2,23 +2,24 @@ package service
 
 import (
 	"github.com/gin-gonic/gin"
-	"im/helper"
-	"im/models"
+	"github.com/yisar/nugei/helper"
+	"github.com/yisar/nugei/model"
 	"log"
 	"net/http"
 )
 
 func Login(c *gin.Context) {
-	account := c.PostForm("account")
-	password := c.PostForm("password")
-	if account == "" || password == "" {
+	json := model.Author{}
+ 	c.BindJSON(&json)
+ 	log.Printf("%v",&json)
+	if json.Name == "" || json.Pwd == "" {
 		c.JSON(http.StatusOK, gin.H{
 			"code": -1,
 			"msg":  "用户名或密码不能为空",
 		})
 		return
 	}
-	ub, err := models.GetUserBasicByAccountPassword(account, helper.GetMd5(password))
+	author, err := model.GetAuthorByAccountPassword(json.Name, helper.GetMd5(json.Pwd))
 	if err != nil {
 		c.JSON(http.StatusOK, gin.H{
 			"code": -1,
@@ -26,7 +27,7 @@ func Login(c *gin.Context) {
 		})
 		return
 	}
-	token, err := helper.GenerateToken(ub.Identity, ub.Email)
+	token, err := helper.GenerateToken(author.Identity, author.Email)
 	if err != nil {
 		c.JSON(http.StatusOK, gin.H{
 			"code": -1,
@@ -44,9 +45,9 @@ func Login(c *gin.Context) {
 }
 
 func UserDetail(c *gin.Context) {
-	u, _ := c.Get("user_claims")
+	u, _ := c.Get("uid")
 	uc := u.(*helper.UserClaims)
-	userBasic, err := models.GetUserBasicByIdentity(uc.Identity)
+	Author, err := model.GetAuthorByIdentity(uc.Identity)
 	if err != nil {
 		log.Printf("[DB ERROR]:%v\n", err)
 		c.JSON(http.StatusOK, gin.H{
@@ -58,7 +59,7 @@ func UserDetail(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{
 		"code": 200,
 		"msg":  "数据加载成功",
-		"data": userBasic,
+		"data": Author,
 	})
 }
 
@@ -71,7 +72,7 @@ func SendCode(c *gin.Context) {
 		})
 		return
 	}
-	cnt, err := models.GetUserBasicCountByEmail(email)
+	cnt, err := model.GetAuthorCountByEmail(email)
 	if err != nil {
 		log.Printf("[DB ERROR]:%v\n", err)
 		return

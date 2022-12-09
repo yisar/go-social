@@ -17,13 +17,13 @@ func TestFindOne(t *testing.T) {
 	client, err := mongo.Connect(ctx, options.Client().SetAuth(options.Credential{
 		Username: "admin",
 		Password: "admin",
-	}).ApplyURI("mongodb://192.168.1.8:27017"))
+	}).ApplyURI("mongodb://localhost:27017"))
 	if err != nil {
 		t.Fatal(err)
 	}
-	db := client.Database("im")
+	db := client.Database("nugei")
 	ub := new(models.UserBasic)
-	err = db.Collection("user_basic").FindOne(context.Background(), bson.D{}).Decode(ub)
+	err = db.Collection("author").FindOne(context.Background(), bson.D{}).Decode(ub)
 	if err != nil {
 		t.Fatal(err)
 	}
