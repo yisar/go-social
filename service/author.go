@@ -44,7 +44,7 @@ func Login(c *gin.Context) {
 	})
 }
 
-func Regisiter(c *gin.Context) {
+func Register(c *gin.Context) {
 	json := model.Author{}
  	c.BindJSON(&json)
  	log.Printf("%v",&json)
@@ -68,7 +68,7 @@ func Regisiter(c *gin.Context) {
 		return
 	}
 
-	cnt2, err := model.GetAuthorCountByName(json.Email)
+	cnt2, err := model.GetAuthorCountByName(json.Name)
 	if err != nil {
 		log.Printf("[DB ERROR]:%v\n", err)
 		return
