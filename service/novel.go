@@ -2,8 +2,8 @@ package service
 
 import (
 	"github.com/gin-gonic/gin"
-	"github.com/yisar/nugei/helper"
-	"github.com/yisar/nugei/model"
+	"github.com/cliclitv/htwxc/helper"
+	"github.com/cliclitv/htwxc/model"
 	"log"
 	"net/http"
 	"time"
