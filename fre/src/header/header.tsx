@@ -7,7 +7,7 @@ export default function Header() {
     const user = getUser()
     return <header>
         <div className="wrapper">
-            <div className="logo">海棠</div>
+            <div className="logo">HenTai</div>
             <nav>
                 <li>Library</li>
                 <li>Forum</li>

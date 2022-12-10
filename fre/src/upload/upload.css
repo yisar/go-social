@@ -1,0 +1,47 @@
+.upload{
+    padding: 10px;
+    border-radius: 4px;
+    background: #f7f6f2;
+    border: 1px solid #e6e6e6;
+    
+    margin: 30px auto;
+}
+
+.upload h1{
+    padding: 30px;
+    border-bottom: 1px solid #ddd;
+}
+
+.upload li{
+    padding: 10px;
+}
+
+.upload li h2{
+    padding: 20px 0;
+}
+
+.upload radio{
+    margin: 10px;
+}
+
+.upload li{
+    padding: 10px;
+}
+
+.upload ul{
+    /* display: flex; */
+}
+
+
+.upload li input[type="text"]{
+    width: 100%;
+    border: 1px solid #e6e6e6;
+    padding: 10px;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+
+.upload li input[type="radio"]{
+    margin-right: 5px;
+}

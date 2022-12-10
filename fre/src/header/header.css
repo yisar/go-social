@@ -26,7 +26,10 @@ header .avatar, header .avatar img{
 
 .wrapper{
     width: 1350px;
+    margin: 0 auto;
+}
+
+header .wrapper{
     display: flex;
     align-items: center;
-    margin: 0 auto;
 }

@@ -60,3 +60,7 @@ header input::-webkit-input-placeholder {
 input:disabled{
     background-color: #f2f2f2;
 }
+
+li{
+    list-style: none;
+}
