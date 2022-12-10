@@ -42,6 +42,9 @@ var whiteOriginsSet = make(map[string]bool)
 
 func initMiddleware(c *gin.Context) {
 	origin := c.GetHeader("Origin")
+	if c.Request.Method == "OPTIONS" {
+        c.AbortWithStatus(http.StatusNoContent)
+    }
 	if whiteOriginsSet[origin] {
 		c.Header("Access-Control-Allow-Origin", origin)
 	}

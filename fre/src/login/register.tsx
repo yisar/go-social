@@ -2,7 +2,6 @@ import { h, useState, useEffect } from 'fre'
 import { A, push } from '../use-route'
 import { post } from '../util/post'
 import './login.css'
-import { getUserB, updateUser } from '../util/api'
 
 export default function Register({ id }) {
 
@@ -17,13 +16,7 @@ export default function Register({ id }) {
     useEffect(() => {
         if (id) {
             console.log('编辑用户')
-            getUserB({ qq: id } as any).then((user: any) => {
-                setName(user.result.name)
-                setQQ(user.result.qq)
-                setUid(user.result.id)
-                setLevel(user.result.level)
-                setHash(user.result.hash)
-            })
+            
         }
 
     }, [])
@@ -48,20 +41,9 @@ export default function Register({ id }) {
     async function register() {
         if (id != null) {
             console.log('修改用户')
-            updateUser({ id: uid, name, qq, pwd, desc: "", level: level, hash }).then(res => {
-                if ((res as any).code === 200) {
-                    alert("修改成功啦~")
-                }
-            })
+            
             return
         }
-        if (!name || !qq || !pwd) {
-            alert('全都得填::>_<::')
-            return
-        }
-        setLoading(true)
-        const res = await post("https://www.clicli.cc/user/register", { name, pwd, qq, hash: "", sign: "" })
-        setLoading(false)
         alert("注册成功啦~")
     }
     function logout() {

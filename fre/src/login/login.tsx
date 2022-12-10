@@ -1,6 +1,6 @@
 import { h, useState } from 'fre'
 import { A, push } from '../use-route'
-import { post } from '../util/post'
+import { loginPost } from '../util/api'
 import './login.css'
 
 export default function Login() {
@@ -16,7 +16,9 @@ export default function Login() {
     }
 
     function login() {
-        alert("还没搞完呢")
+        loginPost({name, pwd}).then(res=>{
+            console.log(res)
+        })
     }
     return <div class="login">
         <li><h1>海棠。</h1><h2>文学城</h2></li>
