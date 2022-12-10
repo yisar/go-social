@@ -45,3 +45,11 @@
 .upload li input[type="radio"]{
     margin-right: 5px;
 }
+
+.tags ul li{
+    display: inline-block;
+    background: #f0ede1;
+    margin: 5px;
+    border-radius:4px;
+    padding: 5px 10px;
+}

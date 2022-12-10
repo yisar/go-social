@@ -1,7 +1,17 @@
 import { h, render } from 'fre'
-import { getUser } from '../util/api'
+import { getUser, loginPost } from '../util/api'
 import { getAvatar } from '../util/avatar'
 import './upload.css'
+
+const tags = [["甜文","虐文","爽文",'狗血','意识流'],
+['古代','现代','民国','未来'],
+['HE','BE','OE'],
+['1v1','NP','骨科','年上','年下','受转攻','直掰弯','攻控','受控'],
+['快穿','悬疑','破镜重圆','强制爱','先虐受后虐攻','追妻'],
+['ABO','生子','哨兵','支服'],
+['娱乐圈','宫廷','网游'],
+['霹雳','原神'],
+['授权翻译','授权转载']]
 
 export default function Upload() {
     return <div class="wrapper upload">
@@ -43,8 +53,11 @@ export default function Upload() {
 
 
         </ul>
-        <ul>
+        <ul class="tags">
             <li><h2>6.请选择标签</h2></li>
+            {tags.map(group=><ul>
+                {group.map(item=><li>{item}</li>)}
+            </ul>)}
         </ul>
         <ul>
             <li><h2>7.请输入文案</h2></li>
