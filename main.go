@@ -40,9 +40,23 @@ var whiteOrigins = [5]string{
 
 var whiteOriginsSet = make(map[string]bool)
 
+func initMiddleware(c *gin.Context) {
+	origin := c.GetHeader("Origin")
+	if whiteOriginsSet[origin] {
+		c.Header("Access-Control-Allow-Origin", origin)
+	}
+
+	c.Header("Access-Control-Allow-Credentials", "true")
+	c.Header("Access-Control-Allow-Methods", "*")
+	c.Header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, token")
+	c.Next()
+}
+
 
 func Router() *gin.Engine {
 	r := gin.Default()
+
+	r.Use(initMiddleware)
 
 	r.StaticFS("assets", http.FS(embededFiles))
 
