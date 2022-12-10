@@ -69,6 +69,6 @@ func SendCode(toUserEmail, code string) error {
 	e.Subject = "验证码已发送，请查收"
 	e.HTML = []byte("您的验证码：<b>" + code + "</b>")
 	return e.SendWithTLS("smtp.qq.com:465",
-		smtp.PlainAuth("", "nugei@foxmail.com", "changhao2333", "smtp.qq.com"),
+		smtp.PlainAuth("", "nugei@foxmail.com", "changhao", "smtp.qq.com"),
 		&tls.Config{InsecureSkipVerify: true, ServerName: "smtp.qq.com"})
 }
