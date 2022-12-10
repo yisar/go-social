@@ -8,7 +8,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: Build Fre
-      - run: |
+        run: |
           cd fre
           yarn
           yarn build
