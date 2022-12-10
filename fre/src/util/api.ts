@@ -9,5 +9,5 @@ export function registerUser(user){
 }
 
 export function getUser(){
-  return window.localStorage.getItem('token')
+  return window.localStorage.getItem('author')
 }

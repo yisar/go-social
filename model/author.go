@@ -7,7 +7,7 @@ import (
 )
 
 type Author struct {
-	Identity  primitive.ObjectID `json:"_id"`
+	Identity  string `json:"_id"`
 	Name   string `json:"name"`
 	Pwd  string `json:"pwd"`
 	Email     string `json:"email"`
