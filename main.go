@@ -50,7 +50,7 @@ func initMiddleware(c *gin.Context) {
 	c.Header("Access-Control-Allow-Methods", "*")
 	c.Header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, token")
 	if c.Request.Method == "OPTIONS" {
-        c.AbortWithStatus(http.StatusNoContent)
+        c.JSON(http.StatusOK,"ok")
     }
 	c.Next()
 }
