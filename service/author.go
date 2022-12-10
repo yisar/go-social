@@ -27,7 +27,7 @@ func Login(c *gin.Context) {
 		})
 		return
 	}
-	token, err := helper.GenerateToken(author.Identity, author.Email)
+	token, err := helper.GenerateToken(author.Identity.Hex(), author.Email)
 	if err != nil {
 		c.JSON(http.StatusOK, gin.H{
 			"code": -1,

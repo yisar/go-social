@@ -21,7 +21,7 @@ export default function Login() {
                 alert("登录成功")
                 window.localStorage.setItem('token', res.data.token)
                 window.localStorage.setItem('author', JSON.stringify(res.data.author))
-                push('/')
+                // push('/')
                
             }
         })

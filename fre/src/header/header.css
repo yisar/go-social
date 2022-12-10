@@ -1,4 +1,32 @@
 header{
     background: var(--theme);
     color: #fff;
+    font-size: 20px;
+    font-weight: bold;
+    padding: 10px;
+}
+header .logo{
+    color: var(--hight);
+    padding-right: 10px;
+}
+header nav{
+    display: flex;
+    flex:1;
+}
+
+header nav li{
+    padding: 10px;
+}
+
+header .avatar, header .avatar img{
+    height: 45px;
+    width: 45px;
+    border-radius: 25px;
+}
+
+.wrapper{
+    width: 1350px;
+    display: flex;
+    align-items: center;
+    margin: 0 auto;
 }
