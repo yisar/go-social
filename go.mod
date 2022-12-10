@@ -1,4 +1,4 @@
-module github.com/yisar/nugei
+module github.com/cliclitv/htwxc
 
 go 1.19
 

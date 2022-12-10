@@ -2,8 +2,8 @@ package main
 
 import (
 	"github.com/gin-gonic/gin"
-	"github.com/yisar/nugei/service"
-	"github.com/yisar/nugei/helper"
+	"github.com/cliclitv/htwxc/service"
+	"github.com/cliclitv/htwxc/helper"
 	"net/http"
 )
 
