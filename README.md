@@ -12,4 +12,3 @@ go get github.com/dgrijalva/jwt-go
 ```shell
 docker run -d --name mongo -e MONGO_INITDB_ROOT_USERNAME=ht -e MONGO_INITDB_ROOT_PASSWORD=123456 -p 27017:27017 mongo
 ```
-emmm,前端不在这里
