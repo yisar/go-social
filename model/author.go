@@ -2,12 +2,14 @@ package model
 
 import (
 	"context"
+	"fmt"
+
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
 type Author struct {
-	Identity  primitive.ObjectID `json:"_id"`
+	Identity  primitive.ObjectID `json:"_id" bson:"_id"`
 	Name   string `json:"name"`
 	Pwd  string `json:"pwd"`
 	Email     string `json:"email"`
