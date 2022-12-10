@@ -2,6 +2,8 @@ package model
 
 import (
 	"context"
+	"sync/atomic"
+
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 )
@@ -45,6 +47,6 @@ func GetAuthorCountByName(name string) (int64, error) {
 
 func UpdateAuthor(author *Author) error {
 	_, err := Mongo.Collection(Author{}.CollectionName()).
-		InsertOne(context.Background(), author)
+		InsertOne(context.Background(), bson.D{{"name", author.Name}, {"pwd", author.Pwd},{"email", author.Email}})
 	return err
 }
