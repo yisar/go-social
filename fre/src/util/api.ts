@@ -7,3 +7,7 @@ export function loginPost(user){
 export function registerUser(user){
   return post(`https://www.htwxc.com/register`, user)
 }
+
+export function getUser(){
+  return window.localStorage.getItem('token')
+}

@@ -40,6 +40,7 @@ func Login(c *gin.Context) {
 		"msg":  "登录成功",
 		"data": gin.H{
 			"token": token,
+			"author": author,
 		},
 	})
 }

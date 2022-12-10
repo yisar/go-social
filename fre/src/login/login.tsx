@@ -16,8 +16,13 @@ export default function Login() {
     }
 
     function login() {
-        loginPost({name, pwd}).then(res=>{
-            console.log(res)
+        loginPost({name, pwd}).then((res:any)=>{
+            if(res.code > 0){
+                alert("登录成功")
+                window.localStorage.setItem('token', res.data.token)
+                window.location.reload();
+               
+            }
         })
     }
     return <div class="login">
