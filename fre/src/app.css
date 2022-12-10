@@ -6,15 +6,17 @@
 body {
     font-size: 14px;
     list-style: none;
+    font-family: '宋体';
     color: var(--color);
     background: var(--background);
-    --theme: #946ce6;
+    --theme: #28127e;
+    --hight: #bd1e68;
     --theme-bg: rgba(148, 108, 230, 0.1);
     --black: rgb(37, 37, 37);
     --whrite: #fff;
     --border: 0 1px 2px #ddd;
     --color: #333;
-    --background: #fafafa
+    --background: #fcfcfa
 }
 
 .icon {

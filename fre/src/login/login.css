@@ -10,8 +10,8 @@
 
 .login li input {
     padding: 10px 20px;
-    border-radius: 18px;
-    border: none;
+    border-radius: 4px;
+    border: 1px solid #e6e6e6;
     width: 100%;
     box-sizing: border-box;
 }
@@ -21,16 +21,25 @@
     color: var(--whrite);
     width: 100%;
     padding: 10px;
-    border-radius: 18px;
-    border: none;
+    border-radius: 4px;
+    border: 1px solid #2d1685;
     cursor: pointer;
 }
 
 .login li h1 {
+    color: var(--hight);
+    text-align: left;
+    padding: 10px 0;
+    display: inline-block;
+}
+
+.login li h2 {
     color: var(--theme);
     text-align: left;
     padding: 10px 0;
+    display: inline-block;
 }
+
 
 button:disabled {
     opacity: .7;
