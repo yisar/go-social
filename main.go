@@ -6,6 +6,7 @@ import (
 	"github.com/cliclitv/htwxc/helper"
 	"net/http"
 	"embed"
+	"io/fs"
 )
 
 func AuthCheck() gin.HandlerFunc {
@@ -57,7 +58,9 @@ func Router() *gin.Engine {
 
 	r.Use(initMiddleware)
 
-	r.StaticFS("assets", http.FS(embededFiles))
+	fsys, _ := fs.Sub(embededFiles, "fre/dist")
+
+	r.StaticFS("/assets", http.FS(fsys))
 
 	r.NoRoute(func(c *gin.Context) {
         c.Header("Content-Type", "text/html; charset=utf-8")
