@@ -6,7 +6,6 @@ import (
 	"github.com/cliclitv/htwxc/model"
 	"log"
 	"net/http"
-	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
 func Login(c *gin.Context) {
@@ -28,7 +27,7 @@ func Login(c *gin.Context) {
 		})
 		return
 	}
-	token, err := helper.GenerateToken(author.Identity, author.Email)
+	token, err := helper.GenerateToken(author.Identity.String(), author.Email)
 	if err != nil {
 		c.JSON(http.StatusOK, gin.H{
 			"code": -1,
@@ -83,7 +82,6 @@ func Register(c *gin.Context) {
 	}
 
 	ub := &model.Author{
-		Identity:  primitive.NewObjectID(),
 		Name: json.Name,
 		Pwd: helper.GetMd5(json.Pwd),
 		Email: json.Email,
