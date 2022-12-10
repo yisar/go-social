@@ -32,9 +32,8 @@ var embededFiles embed.FS
 var html string
 
 var whiteOrigins = [5]string{
-	"https://admin.clicli.cc",
-	"https://www.clicli.cc",
-	"https://clicli.cc",
+	"https://www.htwxc.com",
+	"https://htwxc.com",
 	"http://localhost:3000",
 }
 
