@@ -14,14 +14,11 @@ var Mongo = InitMongo()
 func InitMongo() *mongo.Database {
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
-	pwd := os.Getenv("DATABASE_PWD")
-	client, err := mongo.Connect(ctx, options.Client().SetAuth(options.Credential{
-		Username: "mongo",
-		Password: pwd,
-	}).ApplyURI("mongodb://45.207.47.90:27017"))
+	str:=os.Getenv("DATABASE_STR")
+	client, err := mongo.Connect(ctx, options.Client().ApplyURI(str))
 	if err != nil {
 		log.Println("Connection MongoDB Error:", err)
 		return nil
 	}
-	return client.Database("nugei")
+	return client.Database("ht")
 }

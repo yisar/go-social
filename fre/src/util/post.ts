@@ -5,9 +5,10 @@ export function post(url, params) {
             body: JSON.stringify(params),
             headers: {
                 'Content-Type': 'application/json',
-                token: localStorage.getItem('token')
+                token: localStorage.getItem('token') || ""
             }
         }).then(function (res) {
+            console.log(res)
             return res.json()
         }).then(data => {
             resolve(data)
