@@ -21,7 +21,7 @@ type UserClaims struct {
 func GetMd5(s string) string {
 	tmp := md5.Sum([]byte(s))
 	nextPwd := fmt.Sprintf("%x", tmp)
-	res := md5.Sum([]byte(nextPwd + "%132yse@clicli.us+changhao2333?"))
+	res := md5.Sum([]byte(nextPwd + "%132yse@htwxc.com+changhao2333?"))
 	newPwd := fmt.Sprintf("%x", res)
 	return newPwd
 }

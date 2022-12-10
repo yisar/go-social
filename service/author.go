@@ -83,7 +83,7 @@ func Register(c *gin.Context) {
 
 	ub := &model.Author{
 		Name: json.Name,
-		Pwd: json.Pwd,
+		Pwd: helper.GetMd5(json.Pwd),
 		Email: json.Email,
 	}
 
