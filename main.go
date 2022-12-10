@@ -42,9 +42,6 @@ var whiteOriginsSet = make(map[string]bool)
 
 func initMiddleware(c *gin.Context) {
 	origin := c.GetHeader("Origin")
-	if c.Request.Method == "OPTIONS" {
-        c.AbortWithStatus(http.StatusNoContent)
-    }
 	if whiteOriginsSet[origin] {
 		c.Header("Access-Control-Allow-Origin", origin)
 	}
@@ -52,6 +49,9 @@ func initMiddleware(c *gin.Context) {
 	c.Header("Access-Control-Allow-Credentials", "true")
 	c.Header("Access-Control-Allow-Methods", "*")
 	c.Header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, token")
+	if c.Request.Method == "OPTIONS" {
+        c.JSON(http.StatusOK,"ok")
+    }
 	c.Next()
 }
 
