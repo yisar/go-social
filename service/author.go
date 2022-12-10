@@ -6,6 +6,7 @@ import (
 	"github.com/cliclitv/htwxc/model"
 	"log"
 	"net/http"
+	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
 func Login(c *gin.Context) {
@@ -82,6 +83,7 @@ func Register(c *gin.Context) {
 	}
 
 	ub := &model.Author{
+		Identity:  primitive.NewObjectID(),
 		Name: json.Name,
 		Pwd: helper.GetMd5(json.Pwd),
 		Email: json.Email,
