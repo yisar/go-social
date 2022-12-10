@@ -2,8 +2,6 @@ package model
 
 import (
 	"context"
-	"sync/atomic"
-
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 )
