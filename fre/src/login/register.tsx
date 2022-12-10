@@ -69,9 +69,9 @@ export default function Register({ id }) {
         location.reload()
     }
     return <div class="login">
-        <li><h1>CliCli.{id ? '个人中心' : '注册'}</h1></li>
+        <li><h1>海棠。</h1><h2>文学城</h2></li>
         <li><input type="text" placeholder="QQ" onInput={(e) => changeQQ(e.target.value)} value={qq} /></li>
-        <li><input type="text" placeholder="昵称" onInput={(e) => changeName(e.target.value)} value={name} /></li>
+        <li><input type="text" placeholder="笔名" onInput={(e) => changeName(e.target.value)} value={name} /></li>
         <li><input type="text" placeholder={id ? "留空则不改" : "密码"} onInput={(e) => changePwd(e.target.value)} /></li>
         {id && <select value={level} onInput={e => changeLevel(e.target.value)}>
             <option value="1">游客</option>
