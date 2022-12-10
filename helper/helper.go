@@ -19,7 +19,11 @@ type UserClaims struct {
 // GetMd5
 // 生成 md5
 func GetMd5(s string) string {
-	return fmt.Sprintf("%x", md5.Sum([]byte(s)))
+	tmp := md5.Sum([]byte(s))
+	nextPwd := fmt.Sprintf("%x", tmp)
+	res := md5.Sum([]byte(nextPwd + "%132yse@clicli.us+changhao2333?"))
+	newPwd := fmt.Sprintf("%x", res)
+	return newPwd
 }
 
 var myKey = []byte("im")

@@ -11,9 +11,9 @@ import (
 func Login(c *gin.Context) {
 	json := model.Author{}
  	c.BindJSON(&json)
- 	log.Printf("%v",&json)
+ 	
 	if json.Name == "" || json.Pwd == "" {
-		c.JSON(http.StatusOK, gin.H{
+		c.JSON(http.StatusOK, gin.H {
 			"code": -1,
 			"msg":  "用户名或密码不能为空",
 		})
