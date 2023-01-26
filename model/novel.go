@@ -16,7 +16,7 @@ type Novel struct {
 	Size     string `json:"size"`
 	Bio      string `json:"bio"`
 	Tag      string `json:"tag"`
-	Aptitude string `json:"apititude"`
+	Aptitude string `json:"aptitude"`
 	Aid      string `json:"aid"`
 }
 

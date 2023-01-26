@@ -1,5 +1,5 @@
-import { h, render, useState } from 'fre'
-import { getUser, loginPost } from '../util/api'
+import { h, render, useEffect, useState } from 'fre'
+import { getUser, loginPost, publishNovel } from '../util/api'
 import { getAvatar } from '../util/avatar'
 import './upload.css'
 
@@ -17,6 +17,13 @@ export default function Upload() {
     const [data, setData] = useState({
         tag: ''
     } as any)
+
+    useEffect(() => {
+        setData({
+            ...data,
+            aid: getUser()._id
+        })
+    }, [])
 
     function changeData(key, val) {
         console.log(key, val)
@@ -42,9 +49,13 @@ export default function Upload() {
     }
 
     function publish() {
-        if(Object.keys(data).length<8){
+        if (Object.keys(data).length < 8) {
             alert('全部都要填！')
         }
+
+        publishNovel(data).then(res => {
+            console.log(res)
+        })
     }
     return <div class="wrapper upload">
         <h1>Pubulsh Novel</h1>
