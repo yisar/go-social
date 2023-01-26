@@ -2,7 +2,7 @@ package model
 
 import (
 	"context"
-	"fmt"
+	"go.mongodb.org/mongo-driver/mongo/options"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 )
@@ -44,32 +44,27 @@ func UpdateNovel(novel *Novel) error {
 	return err
 }
 
-func GetNovels() []*Novel {
-	cur, err := Mongo.Collection(Novel{}.CollectionName()).Find(context.TODO(), bson.D{{}})
+func GetNovels(limit, skip *int64) ([]*Novel, error) {
+	data := make([]*Novel, 0)
+	cursor, err := Mongo.Collection(Novel{}.CollectionName()).
+		Find(context.Background(), nil,
+			&options.FindOptions{
+				Limit: limit,
+				Skip:  skip,
+				Sort: bson.D{{
+					"time", -1,
+				}},
+			})
 	if err != nil {
-		fmt.Printf("查询失败，err=%v \n", err)
-		return nil
+		return nil, err
 	}
-
-	var list []*Novel
-
-	// list := make(map[string]*Novel)
-
-	defer cur.Close(context.Background())
-
-	for cur.Next(context.Background()) {
-
-		novel := Novel{}
-
-		err := cur.Decode(novel)
+	for cursor.Next(context.Background()) {
+		mb := new(Novel)
+		err = cursor.Decode(mb)
 		if err != nil {
-			fmt.Printf("解析失败 err=%v \n", err)
-			continue
+			return nil, err
 		}
-
-		list = append(list, &novel)
-
+		data = append(data, mb)
 	}
-
-	return list
+	return data, nil
 }

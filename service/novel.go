@@ -1,19 +1,20 @@
 package service
 
 import (
+	"github.com/cliclitv/htwxc/model"
 	"github.com/gin-gonic/gin"
 	"go.mongodb.org/mongo-driver/bson/primitive"
-	"github.com/cliclitv/htwxc/model"
 	"log"
 	"net/http"
+	"strconv"
 	"time"
 )
 
 func InsertNovel(c *gin.Context) {
 	json := model.Novel{}
- 	c.BindJSON(&json)
- 	log.Printf("%v",&json)
-	if json.Title == "" || json.Content == "" || json.Sort == "" || json.Tag == "" || json.Aid == "" || json.Status =="" || json.Size=="" || json.Aptitude=="" || json.Bio=="" {
+	c.BindJSON(&json)
+	log.Printf("%v", &json)
+	if json.Title == "" || json.Content == "" || json.Sort == "" || json.Tag == "" || json.Aid == "" || json.Status == "" || json.Size == "" || json.Aptitude == "" || json.Bio == "" {
 		c.JSON(http.StatusOK, gin.H{
 			"code": -1,
 			"msg":  "都是必填的！",
@@ -34,16 +35,16 @@ func InsertNovel(c *gin.Context) {
 	}
 
 	novel := &model.Novel{
-		Title: json.Title,
-		Content: json.Content,
-		Sort: json.Sort,
-		Status: json.Status,
-		Tag: json.Tag,
-		Aid: json.Aid,
-		Bio: json.Bio,
-		Size: json.Size,
+		Title:    json.Title,
+		Content:  json.Content,
+		Sort:     json.Sort,
+		Status:   json.Status,
+		Tag:      json.Tag,
+		Aid:      json.Aid,
+		Bio:      json.Bio,
+		Size:     json.Size,
 		Aptitude: json.Aptitude,
-		Time: time.Now().In(time.FixedZone("CST", 8*3600)).Format("2006-01-02 15:04"),
+		Time:     time.Now().In(time.FixedZone("CST", 8*3600)).Format("2006-01-02 15:04"),
 	}
 
 	err2 := model.UpdateNovel(novel)
@@ -86,7 +87,18 @@ func NovelDetail(c *gin.Context) {
 func GetNovels(c *gin.Context) {
 	// id := c.Query("id")
 	// oid, _ := primitive.ObjectIDFromHex(id)
-	novels := model.GetNovels()
+
+	pageIndex, _ := strconv.ParseInt(c.Query("page_index"), 10, 32)
+	pageSize, _ := strconv.ParseInt(c.Query("page_size"), 10, 32)
+	skip := (pageIndex - 1) * pageSize
+	novels, err := model.GetNovels(&pageSize, &skip)
+
+	if err != nil {
+		c.JSON(http.StatusOK, gin.H{
+			"code": -1,
+			"msg":  "数据查询异常",
+		})
+	}
 
 	c.JSON(http.StatusOK, gin.H{
 		"code": 200,
