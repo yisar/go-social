@@ -17,8 +17,8 @@ const App = () => {
     let route = useRoutes(routes)
     return <div>
         <Header />
-        {route}
-        </div>
+        <div>{route}</div>
+    </div>
 
 }
 

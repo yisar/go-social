@@ -16,3 +16,7 @@ export function getUser(){
 export function publishNovel(data){
   return post(`https://www.htwxc.com/publish`, data)
 }
+
+export function getNoves(sort){
+  return get(`https://www.htwxc.com/novels?sort=${sort}&page=1&pageSize=10`)
+}
