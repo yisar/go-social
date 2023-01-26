@@ -16,7 +16,7 @@ const routes = {
 const App = () => {
     let route = useRoutes(routes)
     return <div>
-        <Header />
+        {window.location.pathname !== '/login' && window.location.pathname !== '/register' && <Header />}
         <div>{route}</div>
     </div>
 

@@ -5,7 +5,7 @@ import { getAvatar } from '../util/avatar'
 import './header.css'
 
 export default function Header() {
-    const user = getUser()
+    const user = getUser() || {}
     return <header>
         <div className="wrapper">
             <div className="logo" onClick={()=>push('/')}>HenTai</div>

@@ -58,3 +58,15 @@
     background: var(--hight);
     color: #fff;
 }
+
+.upload button {
+    padding: 10px 40px;
+    background: var(--theme);
+    border: 0;
+    color: #fff;
+    margin: 40px auto;
+    border-radius: 4px;
+    display: block;
+    font-family: '宋体';
+    font-size: 20px;
+}
