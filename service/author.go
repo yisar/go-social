@@ -1,13 +1,13 @@
 package service
 
 import (
+	"fmt"
 	"github.com/cliclitv/htwxc/helper"
 	"github.com/cliclitv/htwxc/model"
 	"github.com/gin-gonic/gin"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"log"
 	"net/http"
-	"fmt"
 )
 
 func Login(c *gin.Context) {
@@ -41,8 +41,12 @@ func Login(c *gin.Context) {
 		"code": 200,
 		"msg":  "登录成功",
 		"data": gin.H{
-			"token":  token,
-			"author": author,
+			"token": token,
+			"author": gin.H{
+				"name":  author.Name,
+				"email": author.Email,
+				"_id":   author.Identity,
+			},
 		},
 	})
 }
@@ -121,7 +125,11 @@ func UserDetail(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{
 		"code": 200,
 		"msg":  "数据加载成功",
-		"data": author,
+		"data": gin.H{
+			"name":  author.Name,
+			"email": author.Email,
+			"_id":   author.Identity,
+		},
 	})
 }
 
