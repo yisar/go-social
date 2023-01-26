@@ -40,7 +40,7 @@ func GetNovelCountByName(name string) (int64, error) {
 
 func UpdateNovel(novel *Novel) error {
 	_, err := Mongo.Collection(Novel{}.CollectionName()).
-		InsertOne(context.Background(), bson.D{{"title", novel.Title}, {"content", novel.Content}, {"bio", novel.Bio}, {"status", novel.Status}, {"sort", novel.Sort}, {"size", novel.Size}, {"aptitude", novel.Aptitude}, {"tag", novel.Tag}, {"time", novel.Time}})
+		InsertOne(context.Background(), bson.D{{"title", novel.Title}, {"content", novel.Content}, {"bio", novel.Bio}, {"status", novel.Status}, {"sort", novel.Sort}, {"size", novel.Size}, {"aptitude", novel.Aptitude}, {"tag", novel.Tag}, {"time", novel.Time}, {"aid", novel.Aid}})
 	return err
 }
 
