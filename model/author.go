@@ -9,7 +9,7 @@ import (
 type Author struct {
 	Identity  primitive.ObjectID `json:"_id" bson:"_id"`
 	Name   string `json:"name"`
-	Pwd  string `json:"pwd,omitempty"`
+	Pwd  string `json:"-"`
 	Email     string `json:"email"`
 }
 

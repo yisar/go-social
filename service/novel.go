@@ -82,3 +82,15 @@ func NovelDetail(c *gin.Context) {
 		"data": novel,
 	})
 }
+
+func GetNovels(c *gin.Context) {
+	// id := c.Query("id")
+	// oid, _ := primitive.ObjectIDFromHex(id)
+	novels := model.GetNovels()
+
+	c.JSON(http.StatusOK, gin.H{
+		"code": 200,
+		"msg":  "数据加载成功",
+		"data": novels,
+	})
+}
