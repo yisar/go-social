@@ -2,7 +2,7 @@ package service
 
 import (
 	"github.com/gin-gonic/gin"
-	"github.com/cliclitv/htwxc/helper"
+	"go.mongodb.org/mongo-driver/bson/primitive"
 	"github.com/cliclitv/htwxc/model"
 	"log"
 	"net/http"
@@ -64,10 +64,10 @@ func InsertNovel(c *gin.Context) {
 }
 
 func NovelDetail(c *gin.Context) {
-	u, _ := c.Get("user")
-	log.Printf("[DB ERROR]:%v\n", u)
-	uc := u.(*helper.UserClaims)
-	author, err := model.GetNovelByIdentity(uc.Identity)
+	id := c.Query("id")
+	// uc := u.(*helper.UserClaims)
+	oid, _ := primitive.ObjectIDFromHex(id)
+	novel, err := model.GetNovelByIdentity(oid)
 	if err != nil {
 		log.Printf("[DB ERROR]:%v\n", err)
 		c.JSON(http.StatusOK, gin.H{
@@ -79,6 +79,6 @@ func NovelDetail(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{
 		"code": 200,
 		"msg":  "数据加载成功",
-		"data": author,
+		"data": novel,
 	})
 }

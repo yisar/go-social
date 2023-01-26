@@ -7,7 +7,7 @@ import (
 )
 
 type Novel struct {
-	Identity string `json:"_id"`
+	Identity  primitive.ObjectID `json:"_id" bson:"_id"`
 	Title    string `json:"title"`
 	Content  string `json:"content"`
 	Time     string `json:"time"`

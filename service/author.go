@@ -1,19 +1,20 @@
 package service
 
 import (
-	"github.com/gin-gonic/gin"
 	"github.com/cliclitv/htwxc/helper"
 	"github.com/cliclitv/htwxc/model"
+	"github.com/gin-gonic/gin"
+	"go.mongodb.org/mongo-driver/bson/primitive"
 	"log"
 	"net/http"
 )
 
 func Login(c *gin.Context) {
 	json := model.Author{}
- 	c.BindJSON(&json)
- 	
+	c.BindJSON(&json)
+
 	if json.Name == "" || json.Pwd == "" {
-		c.JSON(http.StatusOK, gin.H {
+		c.JSON(http.StatusOK, gin.H{
 			"code": -1,
 			"msg":  "用户名或密码不能为空",
 		})
@@ -39,7 +40,7 @@ func Login(c *gin.Context) {
 		"code": 200,
 		"msg":  "登录成功",
 		"data": gin.H{
-			"token": token,
+			"token":  token,
 			"author": author,
 		},
 	})
@@ -47,8 +48,8 @@ func Login(c *gin.Context) {
 
 func Register(c *gin.Context) {
 	json := model.Author{}
- 	c.BindJSON(&json)
- 	log.Printf("%v",&json)
+	c.BindJSON(&json)
+	log.Printf("%v", &json)
 	if json.Name == "" || json.Pwd == "" || json.Email == "" {
 		c.JSON(http.StatusOK, gin.H{
 			"code": -1,
@@ -83,8 +84,8 @@ func Register(c *gin.Context) {
 	}
 
 	ub := &model.Author{
-		Name: json.Name,
-		Pwd: helper.GetMd5(json.Pwd),
+		Name:  json.Name,
+		Pwd:   helper.GetMd5(json.Pwd),
 		Email: json.Email,
 	}
 
@@ -106,10 +107,10 @@ func Register(c *gin.Context) {
 }
 
 func UserDetail(c *gin.Context) {
-	u, _ := c.Get("user")
-	log.Printf("[DB ERROR]:%v\n", u)
-	uc := u.(*helper.UserClaims)
-	author, err := model.GetAuthorByIdentity(uc.Identity)
+	id := c.Query("id")
+	// uc := u.(*helper.UserClaims)
+	oid, _ := primitive.ObjectIDFromHex(id)
+	author, err := model.GetAuthorByIdentity(oid)
 	if err != nil {
 		log.Printf("[DB ERROR]:%v\n", err)
 		c.JSON(http.StatusOK, gin.H{
