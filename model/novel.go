@@ -2,9 +2,9 @@ package model
 
 import (
 	"context"
-	"go.mongodb.org/mongo-driver/mongo/options"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
+	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
 type Novel struct {
@@ -44,10 +44,10 @@ func UpdateNovel(novel *Novel) error {
 	return err
 }
 
-func GetNovels(limit, skip *int64) ([]*Novel, error) {
+func GetNovels(limit, skip *int64, sort string) ([]*Novel, error) {
 	data := make([]*Novel, 0)
 	cursor, err := Mongo.Collection(Novel{}.CollectionName()).
-		Find(context.Background(), nil,
+		Find(context.Background(), bson.M{"sort": sort},
 			&options.FindOptions{
 				Limit: limit,
 				Skip:  skip,

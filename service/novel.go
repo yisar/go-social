@@ -86,13 +86,13 @@ func NovelDetail(c *gin.Context) {
 }
 
 func GetNovels(c *gin.Context) {
-	// id := c.Query("id")
+	sort := c.Query("sort")
 	// oid, _ := primitive.ObjectIDFromHex(id)
 
 	pageIndex, _ := strconv.ParseInt(c.Query("page"), 10, 32)
 	pageSize, _ := strconv.ParseInt(c.Query("pageSize"), 10, 32)
 	skip := (pageIndex - 1) * pageSize
-	novels, err := model.GetNovels(&pageSize, &skip)
+	novels, err := model.GetNovels(&pageSize, &skip, sort)
 
 	if err != nil {
 		c.JSON(http.StatusOK, gin.H{
