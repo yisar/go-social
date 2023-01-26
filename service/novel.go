@@ -51,10 +51,9 @@ func InsertNovel(c *gin.Context) {
 	err2 := model.UpdateNovel(novel)
 
 	if err2 != nil {
-		log.Printf("[DB ERROR]:%v\n", err2)
 		c.JSON(http.StatusOK, gin.H{
 			"code": -1,
-			"msg":  "数据库错误",
+			"msg":  fmt.Sprintf("%s", err),
 		})
 		return
 	}
@@ -74,7 +73,7 @@ func NovelDetail(c *gin.Context) {
 		log.Printf("[DB ERROR]:%v\n", err)
 		c.JSON(http.StatusOK, gin.H{
 			"code": -1,
-			"msg":  "数据查询异常",
+			"msg":  fmt.Sprintf("%s", err),
 		})
 		return
 	}

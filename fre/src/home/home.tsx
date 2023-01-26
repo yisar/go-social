@@ -1,18 +1,19 @@
 import { h, useEffect, useState } from 'fre'
 import { getNoves } from '../util/api'
+import './home.css'
+import List from '../list/list'
 
 export default function Home() {
     const [list, setList] = useState([])
     useEffect(() => {
-        getNoves('原创').then((res:any) => {
+        getNoves('原创').then((res: any) => {
             setList(res.data)
         })
     }, [])
     console.log(list)
-    return <div>
-        {list.map((item, index) => {
-            // console.log(index, item)
-            return <div>{item.title}</div>
-        })}
+    return <div class='wrapper'>
+        <List name='原创区' list={list} />
+        <List name='同人区' list={list} />
+
     </div>
 }

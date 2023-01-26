@@ -1,0 +1,29 @@
+.panel {
+    border: 1px solid #bbb;
+    border-radius: 4px;
+    background: #eee;
+    margin: 20px 0;
+    padding: 10px;
+}
+
+.panel h1 {
+    border-bottom: 1px solid #bbb;
+    padding: 10px;
+    margin: 10px;
+}
+
+.panel ul {
+    padding: 10px;
+}
+
+.panel .no {
+    font-weight: bold;
+    font-size: 18px;
+    padding: 10px 0;
+    /* border-bottom: 1px dashed #bbb; */
+}
+
+.panel .no span {
+    font-weight: normal;
+    font-size: 14px;
+}

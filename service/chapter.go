@@ -7,6 +7,7 @@ import (
 	"log"
 	"net/http"
 	"time"
+	"fmt"
 )
 
 func InsertChapter(c *gin.Context) {
@@ -45,7 +46,7 @@ func InsertChapter(c *gin.Context) {
 		log.Printf("[DB ERROR]:%v\n", err2)
 		c.JSON(http.StatusOK, gin.H{
 			"code": -1,
-			"msg":  "数据库错误",
+			"msg":  fmt.Sprintf("%s", err),
 		})
 		return
 	}

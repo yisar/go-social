@@ -1,35 +1,43 @@
-header{
+header {
     background: var(--theme);
     color: #fff;
     font-size: 20px;
     font-weight: bold;
     padding: 10px;
 }
-header .logo{
+
+header .logo {
     color: var(--hight);
     padding-right: 10px;
 }
-header nav{
+
+header nav {
     display: flex;
-    flex:1;
+    flex: 1;
 }
 
-header nav li{
+header nav li {
     padding: 10px;
 }
 
-header .avatar, header .avatar img{
+header .avatar,
+header .avatar img {
     height: 45px;
     width: 45px;
     border-radius: 25px;
 }
 
-.wrapper{
+.wrapper {
     width: 1350px;
     margin: 0 auto;
 }
 
-header .wrapper{
+header .wrapper {
     display: flex;
     align-items: center;
+}
+
+nav li,
+.logo {
+    cursor: pointer;
 }

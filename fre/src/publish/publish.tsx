@@ -54,7 +54,7 @@ export default function Upload() {
         }
 
         publishNovel(data).then(res => {
-            console.log(res)
+            alert(res.msg)
         })
     }
     return <div class="wrapper upload">

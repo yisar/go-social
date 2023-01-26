@@ -7,6 +7,7 @@ import (
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"log"
 	"net/http"
+	"fmt"
 )
 
 func Login(c *gin.Context) {
@@ -92,10 +93,9 @@ func Register(c *gin.Context) {
 	err2 := model.UpdateAuthor(ub)
 
 	if err2 != nil {
-		log.Printf("[DB ERROR]:%v\n", err2)
 		c.JSON(http.StatusOK, gin.H{
 			"code": -1,
-			"msg":  "数据库错误",
+			"msg":  fmt.Sprintf("%s", err),
 		})
 		return
 	}
@@ -112,10 +112,9 @@ func UserDetail(c *gin.Context) {
 	oid, _ := primitive.ObjectIDFromHex(id)
 	author, err := model.GetAuthorByIdentity(oid)
 	if err != nil {
-		log.Printf("[DB ERROR]:%v\n", err)
 		c.JSON(http.StatusOK, gin.H{
 			"code": -1,
-			"msg":  "数据查询异常",
+			"msg":  fmt.Sprintf("%s", err),
 		})
 		return
 	}
