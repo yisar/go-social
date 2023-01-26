@@ -1,7 +1,7 @@
 import { h, render, useEffect, useState } from 'fre'
 import { getUser, loginPost, publishNovel } from '../util/api'
 import { getAvatar } from '../util/avatar'
-import './upload.css'
+import './publish.css'
 
 const tags = [["甜文", "虐文", "爽文", '狗血', '意识流'],
 ['古代', '现代', '民国', '未来'],
