@@ -77,6 +77,7 @@ func Router() *gin.Engine {
 	r.GET("/novel/detail", service.NovelDetail)
 	// auth := r.Group("/author", AuthCheck())
 	r.GET("/author/detail", service.UserDetail)
+	r.GET("/novels", service.GetNovels)
 
 	return r
 }
