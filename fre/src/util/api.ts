@@ -12,3 +12,7 @@ export function getUser(){
   const author = window.localStorage.getItem('author')
   return JSON.parse(author)
 }
+
+export function publishNovel(data){
+  return post(`https://www.htwxc.com/publish`, data)
+}

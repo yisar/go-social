@@ -20,11 +20,12 @@ body {
 }
 
 .icon {
-    width: 1em; height: 1em;
+    width: 1em;
+    height: 1em;
     vertical-align: -0.15em;
     fill: currentColor;
     overflow: hidden;
- }
+}
 
 a {
     color: var(--color);
@@ -57,10 +58,22 @@ header input::-webkit-input-placeholder {
     background: transparent !important;
 }
 
-input:disabled{
+input:disabled {
     background-color: #f2f2f2;
 }
 
-li{
+li {
     list-style: none;
+}
+
+button {
+    padding: 10px 40px;
+    background: var(--theme);
+    border: 0;
+    color: #fff;
+    margin: 40px auto;
+    border-radius: 4px;
+    display: block;
+    font-family: '宋体';
+    font-size: 20px;
 }

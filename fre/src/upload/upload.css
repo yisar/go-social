@@ -48,8 +48,13 @@
 
 .tags ul li{
     display: inline-block;
-    background: #f0ede1;
+    background: #d0d3ee;
     margin: 5px;
     border-radius:4px;
     padding: 5px 10px;
+}
+
+.tags .active{
+    background: var(--hight);
+    color: #fff;
 }

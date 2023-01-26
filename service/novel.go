@@ -13,7 +13,7 @@ func InsertNovel(c *gin.Context) {
 	json := model.Novel{}
  	c.BindJSON(&json)
  	log.Printf("%v",&json)
-	if json.Title == "" || json.Content == "" || json.Sort == "" || json.Tag == "" || json.Aid == "" {
+	if json.Title == "" || json.Content == "" || json.Sort == "" || json.Tag == "" || json.Aid == "" || json.Status =="" || json.Size=="" || json.Aptitude=="" || json.Bio=="" {
 		c.JSON(http.StatusOK, gin.H{
 			"code": -1,
 			"msg":  "都是必填的！",
@@ -40,6 +40,9 @@ func InsertNovel(c *gin.Context) {
 		Status: json.Status,
 		Tag: json.Tag,
 		Aid: json.Aid,
+		Bio: json.Bio,
+		Size: json.Size,
+		Aptitude: json.Aptitude,
 		Time: time.Now().In(time.FixedZone("CST", 8*3600)).Format("2006-01-02 15:04"),
 	}
 

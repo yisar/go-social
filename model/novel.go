@@ -7,14 +7,17 @@ import (
 )
 
 type Novel struct {
-	Identity  string `json:"_id"`
-	Title   string `json:"title"`
+	Identity string `json:"_id"`
+	Title    string `json:"title"`
 	Content  string `json:"content"`
 	Time     string `json:"time"`
-	Sort    string `json:"sort"`
-	Status string `json:"status"`
-	Tag string `json:"status"`
-	Aid string `json:"aid"`
+	Sort     string `json:"sort"`
+	Status   string `json:"status"`
+	Size     string `json:"size"`
+	Bio      string `json:"bio"`
+	Tag      string `json:"tag"`
+	Aptitude string `json:"apititude"`
+	Aid      string `json:"aid"`
 }
 
 func (Novel) CollectionName() string {

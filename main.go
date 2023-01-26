@@ -73,7 +73,7 @@ func Router() *gin.Engine {
 	r.POST("/login", service.Login)
 	r.POST("/register", service.Register)
 	r.POST("/sendcode", service.SendCode)
-
+	r.POST("/publish", service.InsertNovel)
 	auth := r.Group("/author", AuthCheck())
 	auth.GET("/detail", service.UserDetail)
 
