@@ -8,6 +8,7 @@ import (
 	"net/http"
 	"strconv"
 	"time"
+	"fmt"
 )
 
 func InsertNovel(c *gin.Context) {
@@ -88,16 +89,17 @@ func GetNovels(c *gin.Context) {
 	// id := c.Query("id")
 	// oid, _ := primitive.ObjectIDFromHex(id)
 
-	pageIndex, _ := strconv.ParseInt(c.Query("page_index"), 10, 32)
-	pageSize, _ := strconv.ParseInt(c.Query("page_size"), 10, 32)
+	pageIndex, _ := strconv.ParseInt(c.Query("page"), 10, 32)
+	pageSize, _ := strconv.ParseInt(c.Query("pageSize"), 10, 32)
 	skip := (pageIndex - 1) * pageSize
 	novels, err := model.GetNovels(&pageSize, &skip)
 
 	if err != nil {
 		c.JSON(http.StatusOK, gin.H{
 			"code": -1,
-			"msg":  "数据查询异常",
+			"msg": fmt.Sprintf("%s", err),
 		})
+		return
 	}
 
 	c.JSON(http.StatusOK, gin.H{
