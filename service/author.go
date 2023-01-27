@@ -54,7 +54,6 @@ func Login(c *gin.Context) {
 func Register(c *gin.Context) {
 	json := model.Author{}
 	c.BindJSON(&json)
-	log.Printf("%v", &json)
 	if json.Name == "" || json.Pwd == "" || json.Email == "" {
 		c.JSON(http.StatusOK, gin.H{
 			"code": -1,
@@ -111,7 +110,7 @@ func Register(c *gin.Context) {
 }
 
 func UserDetail(c *gin.Context) {
-	id := c.Query("id")
+	id := c.Param("id")
 	// uc := u.(*helper.UserClaims)
 	oid, _ := primitive.ObjectIDFromHex(id)
 	author, err := model.GetAuthorByIdentity(oid)

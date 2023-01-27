@@ -2,19 +2,19 @@ package service
 
 import (
 	"github.com/gin-gonic/gin"
-	"github.com/cliclitv/htwxc/helper"
+	"go.mongodb.org/mongo-driver/bson/primitive"
 	"github.com/cliclitv/htwxc/model"
 	"log"
 	"net/http"
 	"time"
 	"fmt"
+	"strconv"
 )
 
 func InsertChapter(c *gin.Context) {
 	json := model.Chapter{}
  	c.BindJSON(&json)
- 	log.Printf("%v",&json)
-	if json.Title == "" || json.Content == "" {
+	if json.Title == "" || json.Content == "" || json.Nid == "" || json.Oid == 0 {
 		c.JSON(http.StatusOK, gin.H{
 			"code": -1,
 			"msg":  "都是必填的！",
@@ -35,15 +35,17 @@ func InsertChapter(c *gin.Context) {
 	}
 
 	chapter := &model.Chapter{
+		Oid: json.Oid,
+		Nid: json.Nid,
+		Status: json.Status,
 		Title: json.Title,
 		Content: json.Content,
 		Time: time.Now().In(time.FixedZone("CST", 8*3600)).Format("2006-01-02 15:04"),
 	}
 
-	err2 := model.UpdateChapter(chapter)
+	err = model.UpdateChapter(chapter)
 
-	if err2 != nil {
-		log.Printf("[DB ERROR]:%v\n", err2)
+	if err != nil {
 		c.JSON(http.StatusOK, gin.H{
 			"code": -1,
 			"msg":  fmt.Sprintf("%s", err),
@@ -58,21 +60,43 @@ func InsertChapter(c *gin.Context) {
 }
 
 func ChapterDetail(c *gin.Context) {
-	u, _ := c.Get("user")
-	log.Printf("[DB ERROR]:%v\n", u)
-	uc := u.(*helper.UserClaims)
-	author, err := model.GetChapterByIdentity(uc.Identity)
+	id := c.Param("id")
+	oid, _ := primitive.ObjectIDFromHex(id)
+	chapter, err := model.GetNovelByIdentity(oid)
 	if err != nil {
-		log.Printf("[DB ERROR]:%v\n", err)
 		c.JSON(http.StatusOK, gin.H{
 			"code": -1,
-			"msg":  "数据查询异常",
+			"msg":  fmt.Sprintf("%s", err),
 		})
 		return
 	}
 	c.JSON(http.StatusOK, gin.H{
 		"code": 200,
 		"msg":  "数据加载成功",
-		"data": author,
+		"data": chapter,
+	})
+}
+
+func GetChapters(c *gin.Context) {
+	nid := c.Query("nid")
+	// oid, _ := primitive.ObjectIDFromHex(id)
+
+	pageIndex, _ := strconv.ParseInt(c.Query("page"), 10, 32)
+	pageSize, _ := strconv.ParseInt(c.Query("pageSize"), 10, 32)
+	skip := (pageIndex - 1) * pageSize
+	chapters, err := model.GetChapters(&pageSize, &skip, nid)
+
+	if err != nil {
+		c.JSON(http.StatusOK, gin.H{
+			"code": -1,
+			"msg": fmt.Sprintf("%s", err),
+		})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{
+		"code": 200,
+		"msg":  "数据加载成功",
+		"data": chapters,
 	})
 }

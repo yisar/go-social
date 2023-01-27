@@ -73,11 +73,14 @@ func Router() *gin.Engine {
 	r.POST("/login", service.Login)
 	r.POST("/register", service.Register)
 	r.POST("/sendcode", service.SendCode)
-	r.POST("/publish", service.InsertNovel)
-	r.GET("/novel/detail", service.NovelDetail)
-	// auth := r.Group("/author", AuthCheck())
-	r.GET("/author/detail", service.UserDetail)
+	r.POST("/novel/add", service.InsertNovel)
+	r.POST("/chapter/add", service.InsertChapter)
+	
+	r.GET("/novel/:id", service.NovelDetail)
+	r.GET("/author/:id", service.UserDetail)
+	r.GET("/chapter/:id", service.ChapterDetail)
 	r.GET("/novels", service.GetNovels)
+	r.GET("/chapters", service.GetChapters)
 
 	return r
 }

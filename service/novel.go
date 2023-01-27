@@ -65,7 +65,7 @@ func InsertNovel(c *gin.Context) {
 }
 
 func NovelDetail(c *gin.Context) {
-	id := c.Query("id")
+	id := c.Param("id")
 	// uc := u.(*helper.UserClaims)
 	oid, _ := primitive.ObjectIDFromHex(id)
 	novel, err := model.GetNovelByIdentity(oid)
