@@ -54,7 +54,7 @@ export default function Novel(props) {
 
         </div>
         <div class='reply'>
-            <input type="text" placeholder='请输入章节序号' onInput={e => changeData('oid', e.target.value)} />
+            <input type="text" placeholder='请输入章节序号' onInput={e => changeData('oid', parseInt(e.target.value))} />
             <input type="text" placeholder='请输入标题' onInput={e => changeData('title', e.target.value)} />
             <textarea name="" id="" rows="10" onInput={e => changeData('content', e.target.value)}></textarea>
             <button onClick={publish}>发布</button>

@@ -17,7 +17,7 @@ func InsertChapter(c *gin.Context) {
 	if json.Title == "" || json.Content == "" || json.Nid == "" || json.Oid == 0 {
 		c.JSON(http.StatusOK, gin.H{
 			"code": -1,
-			"msg":  json,
+			"msg":  "都是必填的！",
 		})
 		return
 	}

@@ -18,7 +18,7 @@ type Chapter struct {
 }
 
 func (Chapter) CollectionName() string {
-	return "Chapter"
+	return "chapter"
 }
 
 func GetChapterByIdentity(identity primitive.ObjectID) (*Chapter, error) {
