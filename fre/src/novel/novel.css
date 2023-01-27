@@ -42,4 +42,16 @@
     border-radius: 4px;
     background: #fff;
     width: 100%;
+    margin: 10px 0;
+    padding: 10px;
+}
+
+.reply input{
+    border: 1px solid #bbb;
+    border-radius: 4px;
+    background: #fff;
+    width: 100%;
+    margin: 10px 0;
+    padding: 10px;
+    box-sizing: border-box;
 }
