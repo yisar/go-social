@@ -1,19 +1,24 @@
 import { h, useEffect, useState } from 'fre'
 import { A } from '../use-route'
-import { addChapter, getNovel, getUser } from '../util/api'
+import { addChapter, getChapters, getNovel, getUser } from '../util/api'
 import './novel.css'
 
 export default function Novel(props) {
-    const id = props.id.slice(2)
+    const id = props.id
+
+    const [novel, setNovel] = useState({} as any)
+    const [data, setData] = useState({} as any)
+    const [list, setList] = useState([])
+    const [current, setIndex] = useState(0)
 
     useEffect(() => {
         getNovel(id).then(res => {
             setNovel(res.data)
+            getChapters(res.data._id).then(res2 => {
+                setList(res2.data)
+            })
         })
     }, [])
-
-    const [novel, setNovel] = useState({} as any)
-    const [data, setData] = useState({} as any)
 
     function changeData(key, val) {
         console.log(key, val)
@@ -30,11 +35,13 @@ export default function Novel(props) {
             status: '发布',
             nid: novel._id
         }).then(res => {
-            console.log(res)
+            alert(res.msg)
         })
     }
 
-    // const tags = 
+    function open(index) {
+        setIndex(index)
+    }
 
     return <div class='wrapper'>
         <div class='detail'>
@@ -51,14 +58,28 @@ export default function Novel(props) {
                     return <li>#{tag}</li>
                 })}
             </ul>
-
         </div>
+
+        <div class='list'>
+            {list.map((item, index) => {
+                const content = item.content.replace(/\s+/g,'\n')
+
+                return <div class='chapter'>
+                    <div onClick={() => {
+                        open(index)
+                    }}>
+                        <h2>{item.title}</h2>
+                        {index === current && <pre>{content}</pre>}
+                    </div>
+                </div>
+            })}
+        </div>
+
         <div class='reply'>
             <input type="text" placeholder='请输入章节序号' onInput={e => changeData('oid', parseInt(e.target.value))} />
             <input type="text" placeholder='请输入标题' onInput={e => changeData('title', e.target.value)} />
             <textarea name="" id="" rows="10" onInput={e => changeData('content', e.target.value)}></textarea>
             <button onClick={publish}>发布</button>
-
         </div>
     </div>
 }

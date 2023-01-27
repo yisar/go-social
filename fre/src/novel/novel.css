@@ -44,9 +44,10 @@
     width: 100%;
     margin: 10px 0;
     padding: 10px;
+    box-sizing: border-box;
 }
 
-.reply input{
+.reply input {
     border: 1px solid #bbb;
     border-radius: 4px;
     background: #fff;
@@ -54,4 +55,31 @@
     margin: 10px 0;
     padding: 10px;
     box-sizing: border-box;
+}
+
+.chapter {
+    border: 1px solid #bbb;
+    border-radius: 4px;
+    background: #eee;
+    margin: 20px 0;
+    padding: 10px;
+    line-height: 50px;
+}
+
+.chapter h2 {
+    text-align: center;
+    cursor: pointer;
+    text-decoration: underline
+}
+
+.chapter article {
+    font-size: 16px;
+}
+
+pre {
+    white-space: pre-wrap;
+    white-space: -moz-pre-wrap;
+    white-space: -pre-wrap;
+    white-space: -o-pre-wrap;
+    word-wrap: break-word;
 }

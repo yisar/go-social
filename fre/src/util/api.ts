@@ -30,5 +30,5 @@ export function getNovel(id){
 }
 
 export function getChapters(nid){
-  return get(`https://www.htwxc.com/novels?nid=${nid}&page=1&pageSize=10`)
+  return get(`https://www.htwxc.com/chapters?nid=${nid}&page=1&pageSize=10`)
 }
