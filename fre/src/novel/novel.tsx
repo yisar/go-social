@@ -49,7 +49,7 @@ export default function Novel(props) {
 
     return <div class='wrapper'>
         <div class='detail'>
-            <h1>{novel.title}</h1>
+            <h1>《{novel.title}》</h1>
             <p>{novel.content}</p>
             <ul class='info'>
                 <li>{novel.status}</li>
