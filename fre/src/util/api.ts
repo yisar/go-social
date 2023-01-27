@@ -26,7 +26,7 @@ export function getNovels(sort){
 }
 
 export function getNovel(id){
-  return get(`https://www.htwxc.com/novel/${id}`)
+  return get(`https://www.htwxc.com/novel/detail/${id}`)
 }
 
 export function getChapters(nid){
