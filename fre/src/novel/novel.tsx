@@ -43,6 +43,10 @@ export default function Novel(props) {
         setIndex(index)
     }
 
+    const user = getUser()||{}
+
+    const isAuthor = novel.aid === user._id
+
     return <div class='wrapper'>
         <div class='detail'>
             <h1>{novel.title}</h1>
@@ -76,8 +80,8 @@ export default function Novel(props) {
         </div>
 
         <div class='reply'>
-            <input type="text" placeholder='请输入章节序号' onInput={e => changeData('oid', parseInt(e.target.value))} />
-            <input type="text" placeholder='请输入标题' onInput={e => changeData('title', e.target.value)} />
+            {isAuthor && <input type="text" placeholder='请输入章节序号' onInput={e => changeData('oid', parseInt(e.target.value))} />}
+            {isAuthor && <input type="text" placeholder='请输入标题' onInput={e => changeData('title', e.target.value)} />}
             <textarea name="" id="" rows="10" onInput={e => changeData('content', e.target.value.replace(/\s+/g,'\n'))}></textarea>
             <button onClick={publish}>发布</button>
         </div>
