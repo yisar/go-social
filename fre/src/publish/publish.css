@@ -59,7 +59,7 @@
     color: #fff;
 }
 
-.upload button {
+.upload button, .reply button {
     padding: 10px 40px;
     background: var(--theme);
     border: 0;
@@ -69,4 +69,5 @@
     display: block;
     font-family: '宋体';
     font-size: 20px;
+    cursor: pointer;
 }

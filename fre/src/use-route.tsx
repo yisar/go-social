@@ -60,7 +60,7 @@ function perfrom(stack) {
 
 
   if (typeof component.then === 'function') {
-    if (path === '/login'|| path === '/register' || getUser()) {
+    if (path === '/login' || path === '/register' || getUser()) {
       component.then(res => {
         routesCache[path] = res.default
         setter(Symbol())
@@ -113,14 +113,11 @@ export function A(props) {
 
   const onClick = e => {
     if (onclick) onclick(e)
-    if (
-      !event.defaultPrevented && // onClick prevented default
-      (!props.target || props.target === '_self') && // let browser handle "target=_blank" etc.
-      !isModifiedEvent(event) // ignore clicks with modifier keys
-    ) {
-      e.preventDefault()
-      push(e.target.href)
+
+    if (props.href) {
+      push(props.href)
     }
+
   }
 
   return (

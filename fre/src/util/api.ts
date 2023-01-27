@@ -14,9 +14,21 @@ export function getUser(){
 }
 
 export function publishNovel(data){
-  return post(`https://www.htwxc.com/publish`, data)
+  return post(`https://www.htwxc.com/novel/add`, data)
 }
 
-export function getNoves(sort){
+export function addChapter(data){
+  return post(`https://www.htwxc.com/chapter/add`, data)
+}
+
+export function getNovels(sort){
   return get(`https://www.htwxc.com/novels?sort=${sort}&page=1&pageSize=10`)
+}
+
+export function getNovel(id){
+  return get(`https://www.htwxc.com/novel/${id}`)
+}
+
+export function getChapters(nid){
+  return get(`https://www.htwxc.com/novels?nid=${nid}&page=1&pageSize=10`)
 }

@@ -1,7 +1,6 @@
 import { render, Fragment, h, } from "fre"
 import { useRoutes } from './use-route'
 import Header from './header/header'
-import Publish from './publish/publish'
 
 
 import './app.css'
@@ -11,6 +10,7 @@ const routes = {
     '/publish': import('./publish/publish'),
     '/login': import('./login/login'),
     '/register': import('./login/register'),
+    '/novel/:id': import('./novel/novel'),
 }
 
 const App = () => {
