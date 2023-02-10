@@ -26,7 +26,7 @@ export default function Login() {
         })
     }
     return <div class="login">
-        <li><h1>海棠。</h1><h2>文学城</h2></li>
+        <li><h1>脆皮鸭。</h1><h2>文学城</h2></li>
         <li><input type="text" placeholder="笔名" onInput={(e) => changeName(e.target.value)} /></li>
         <li><input type="text" placeholder="密码" onInput={(e) => changePwd(e.target.value)} /></li>
         <li><button onClick={login}>登录</button></li>
