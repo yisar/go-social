@@ -15,7 +15,7 @@ func Auth(aid string, token string) error {
 		return err
 	}
 	// 查找当前用户
-	objectID, err := primitive.ObjectIDFromHex(aid)
+	objectID, _ := primitive.ObjectIDFromHex(aid)
 	user, err := model.GetAuthorByIdentity(objectID)
 
 	fmt.Println(userClaims.Name)
