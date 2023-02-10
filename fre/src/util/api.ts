@@ -29,6 +29,6 @@ export function getThread(id){
   return get(`https://www.cuipiya.net/thread/detail/${id}`)
 }
 
-export function getPosts(nid){
-  return get(`https://www.cuipiya.net/posts?nid=${nid}&page=1&pageSize=10`)
+export function getPosts(tid){
+  return get(`https://www.cuipiya.net/posts?tid=${tid}&page=1&pageSize=10`)
 }
