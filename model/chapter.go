@@ -42,7 +42,7 @@ func InsertChapter(chapter *Chapter) error {
 
 func UpdateChapter(chapter *Chapter, id primitive.ObjectID) error {
 	_, err := Mongo.Collection(Chapter{}.CollectionName()).
-		UpdateByID(context.Background(), bson.M{"_id": id}, bson.D{{"oid", chapter.Oid}, {"title", chapter.Title}, {"content", chapter.Content}, {"status", chapter.Status}, {"time", chapter.Time}, {"nid", chapter.Nid}})
+		UpdateOne(context.Background(), bson.M{"_id": id}, bson.D{{"oid", chapter.Oid}, {"title", chapter.Title}, {"content", chapter.Content}, {"status", chapter.Status}, {"time", chapter.Time}, {"nid", chapter.Nid}})
 	return err
 }
 

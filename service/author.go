@@ -94,9 +94,15 @@ func Register(c *gin.Context) {
 		Level: 0,
 	}
 
-	err2 := model.UpdateAuthor(ub)
+	
+	if json.Identity.Hex() == "000000000000000000000000" {
+		err = model.InsertAuthor(ub)
+	} else {
+		err = model.UpdateAuthor(ub, json.Identity)
+	}
 
-	if err2 != nil {
+
+	if err != nil {
 		c.JSON(http.StatusOK, gin.H{
 			"code": -1,
 			"msg":  fmt.Sprintf("%s", err),

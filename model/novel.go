@@ -47,7 +47,7 @@ func InsertNovel(novel *Novel) error {
 
 func UpdateNovel(novel *Novel, id primitive.ObjectID) error {
 	_, err := Mongo.Collection(Novel{}.CollectionName()).
-		UpdateByID(context.Background(), bson.M{"_id": id}, bson.D{{"$set",
+		UpdateOne(context.Background(), bson.M{"_id": id}, bson.D{{"$set",
 			bson.D{{"title", novel.Title}, {"content", novel.Content}, {"bio", novel.Bio}, {"status", novel.Status}, {"sort", novel.Sort}, {"size", novel.Size}, {"aptitude", novel.Aptitude}, {"tag", novel.Tag}, {"time", novel.Time}, {"aid", novel.Aid}, {"thumb", novel.Thumb}},
 		}})
 	return err
