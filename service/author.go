@@ -91,6 +91,7 @@ func Register(c *gin.Context) {
 		Name:  json.Name,
 		Pwd:   helper.GetMd5(json.Pwd),
 		Email: json.Email,
+		Level: 0,
 	}
 
 	err2 := model.UpdateAuthor(ub)

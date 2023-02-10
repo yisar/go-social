@@ -13,6 +13,7 @@ type Novel struct {
 	Content  string             `json:"content"`
 	Time     string             `json:"time"`
 	Sort     string             `json:"sort"`
+	Thumb    string             `json:"thumb"`
 	Status   string             `json:"status"`
 	Size     string             `json:"size"`
 	Bio      string             `json:"bio"`
@@ -40,7 +41,7 @@ func GetNovelCountByName(name string) (int64, error) {
 
 func UpdateNovel(novel *Novel) error {
 	_, err := Mongo.Collection(Novel{}.CollectionName()).
-		InsertOne(context.Background(), bson.D{{"title", novel.Title}, {"content", novel.Content}, {"bio", novel.Bio}, {"status", novel.Status}, {"sort", novel.Sort}, {"size", novel.Size}, {"aptitude", novel.Aptitude}, {"tag", novel.Tag}, {"time", novel.Time}, {"aid", novel.Aid}})
+		InsertOne(context.Background(), bson.D{{"title", novel.Title}, {"content", novel.Content}, {"bio", novel.Bio}, {"status", novel.Status}, {"sort", novel.Sort}, {"size", novel.Size}, {"aptitude", novel.Aptitude}, {"tag", novel.Tag}, {"time", novel.Time}, {"aid", novel.Aid}, {"thumb", novel.Thumb}})
 	return err
 }
 

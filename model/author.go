@@ -7,10 +7,11 @@ import (
 )
 
 type Author struct {
-	Identity  primitive.ObjectID `json:"_id" bson:"_id"`
-	Name   string `json:"name"`
-	Pwd  string `json:"pwd"`
-	Email     string `json:"email"`
+	Identity primitive.ObjectID `json:"_id" bson:"_id"`
+	Name     string             `json:"name"`
+	Pwd      string             `json:"pwd"`
+	Email    string             `json:"email"`
+	Level    int             `json:"level"`
 }
 
 func (Author) CollectionName() string {
@@ -45,6 +46,6 @@ func GetAuthorCountByName(name string) (int64, error) {
 
 func UpdateAuthor(author *Author) error {
 	_, err := Mongo.Collection(Author{}.CollectionName()).
-		InsertOne(context.Background(), bson.D{{"name", author.Name}, {"pwd", author.Pwd},{"email", author.Email}})
+		InsertOne(context.Background(), bson.D{{"name", author.Name}, {"pwd", author.Pwd}, {"email", author.Email}, {"level", 0}})
 	return err
 }
