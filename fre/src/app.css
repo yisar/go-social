@@ -9,8 +9,8 @@ body {
     font-family: '宋体';
     color: var(--color);
     background: var(--background);
-    --theme: #28127e;
-    --hight: #bd1e68;
+    --theme: #F98905;
+    --hight: #07a6ff;
     --theme-bg: rgba(148, 108, 230, 0.1);
     --black: rgb(37, 37, 37);
     --whrite: #fff;
