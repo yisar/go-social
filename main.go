@@ -60,7 +60,7 @@ func Router() *gin.Engine {
 	r.POST("/post/add", service.InsertPost)
 	
 	r.GET("/thread/detail/:id", service.ThreadDetail)
-	r.GET("/author/detail/:id", service.UserDetail)
+	r.GET("/user/detail/:id", service.UserDetail)
 	r.GET("/post/detail/:id", service.PostDetail)
 	r.GET("/threads", service.GetThreads)
 	r.GET("/posts", service.GetPosts)

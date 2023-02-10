@@ -8,7 +8,7 @@ import (
 	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
-type Author struct {
+type User struct {
 	Identity primitive.ObjectID `json:"_id" bson:"_id"`
 	Name     string             `json:"name"`
 	Pwd      string             `json:"pwd"`
@@ -16,44 +16,44 @@ type Author struct {
 	Level    int                `json:"level"`
 }
 
-func (Author) CollectionName() string {
-	return "author"
+func (User) CollectionName() string {
+	return "user"
 }
 
-func GetAuthorByAccountPassword(name, pwd string) (*Author, error) {
+func GetUserByAccountPassword(name, pwd string) (*User, error) {
 	fmt.Println(name, pwd)
-	ub := new(Author)
-	err := Mongo.Collection(Author{}.CollectionName()).
+	ub := new(User)
+	err := Mongo.Collection(User{}.CollectionName()).
 		FindOne(context.Background(), bson.D{{"name", name}, {"pwd", pwd}}).
 		Decode(ub)
 	return ub, err
 }
 
-func GetAuthorByIdentity(identity primitive.ObjectID) (*Author, error) {
-	ub := new(Author)
-	err := Mongo.Collection(Author{}.CollectionName()).
+func GetUserByIdentity(identity primitive.ObjectID) (*User, error) {
+	ub := new(User)
+	err := Mongo.Collection(User{}.CollectionName()).
 		FindOne(context.Background(), bson.D{{"_id", identity}}).
 		Decode(ub)
 	return ub, err
 }
 
-func GetAuthorCountByEmail(email string) (int64, error) {
-	return Mongo.Collection(Author{}.CollectionName()).
+func GetUserCountByEmail(email string) (int64, error) {
+	return Mongo.Collection(User{}.CollectionName()).
 		CountDocuments(context.Background(), bson.D{{"email", email}})
 }
 
-func GetAuthorCountByName(name string) (int64, error) {
-	return Mongo.Collection(Author{}.CollectionName()).
+func GetUserCountByName(name string) (int64, error) {
+	return Mongo.Collection(User{}.CollectionName()).
 		CountDocuments(context.Background(), bson.D{{"name", name}})
 }
 
-func InsertAuthor(author *Author) error {
-	_, err := Mongo.Collection(Author{}.CollectionName()).
-		InsertOne(context.Background(), bson.D{{"name", author.Name}, {"pwd", author.Pwd}, {"email", author.Email}, {"level", 0}})
+func InsertUser(user *User) error {
+	_, err := Mongo.Collection(User{}.CollectionName()).
+		InsertOne(context.Background(), bson.D{{"name", user.Name}, {"pwd", user.Pwd}, {"email", user.Email}, {"level", 0}})
 	return err
 }
-func UpdateAuthor(author *Author, id primitive.ObjectID) error {
-	_, err := Mongo.Collection(Author{}.CollectionName()).
-		UpdateOne(context.Background(), bson.M{"_id": id}, bson.D{{"name", author.Name}, {"pwd", author.Pwd}, {"email", author.Email}, {"level", 0}})
+func UpdateUser(user *User, id primitive.ObjectID) error {
+	_, err := Mongo.Collection(User{}.CollectionName()).
+		UpdateOne(context.Background(), bson.M{"_id": id}, bson.D{{"name", user.Name}, {"pwd", user.Pwd}, {"email", user.Email}, {"level", 0}})
 	return err
 }

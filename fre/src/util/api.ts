@@ -9,8 +9,8 @@ export function registerUser(user){
 }
 
 export function getUser(){
-  const author = window.localStorage.getItem('author')
-  return JSON.parse(author)
+  const user = window.localStorage.getItem('user')
+  return JSON.parse(user)
 }
 
 export function publishThread(data){

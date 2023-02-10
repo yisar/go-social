@@ -20,7 +20,7 @@ export default function Login() {
             if (res.code > 0) {
                 alert("登录成功")
                 window.localStorage.setItem('token', res.data.token)
-                window.localStorage.setItem('author', JSON.stringify(res.data.author))
+                window.localStorage.setItem('user', JSON.stringify(res.data.user))
                 push('/')
             }
         })

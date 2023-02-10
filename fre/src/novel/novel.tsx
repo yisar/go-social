@@ -45,7 +45,7 @@ export default function Thread(props) {
 
     const user = getUser()||{}
 
-    const isAuthor = thread.aid === user._id
+    const isUser = thread.aid === user._id
 
     return <div class='wrapper'>
         <div class='detail'>
@@ -80,8 +80,8 @@ export default function Thread(props) {
         </div>
 
         <div class='reply'>
-            {isAuthor && <input type="text" placeholder='请输入章节序号' onInput={e => changeData('oid', parseInt(e.target.value))} />}
-            {isAuthor && <input type="text" placeholder='请输入标题' onInput={e => changeData('title', e.target.value)} />}
+            {isUser && <input type="text" placeholder='请输入章节序号' onInput={e => changeData('oid', parseInt(e.target.value))} />}
+            {isUser && <input type="text" placeholder='请输入标题' onInput={e => changeData('title', e.target.value)} />}
             <textarea name="" id="" rows="10" onInput={e => changeData('content', e.target.value.replace(/\s+/g,'\n'))}></textarea>
             <button onClick={publish}>发布</button>
         </div>

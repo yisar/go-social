@@ -11,7 +11,7 @@ import (
 )
 
 func Login(c *gin.Context) {
-	json := model.Author{}
+	json := model.User{}
 	c.BindJSON(&json)
 
 	if json.Name == "" || json.Pwd == "" {
@@ -21,7 +21,7 @@ func Login(c *gin.Context) {
 		})
 		return
 	}
-	author, err := model.GetAuthorByAccountPassword(json.Name, helper.GetMd5(json.Pwd))
+	user, err := model.GetUserByAccountPassword(json.Name, helper.GetMd5(json.Pwd))
 	if err != nil {
 		c.JSON(http.StatusOK, gin.H{
 			"code": -1,
@@ -29,7 +29,7 @@ func Login(c *gin.Context) {
 		})
 		return
 	}
-	token, err := helper.GenerateToken(author.Identity.Hex(), author.Name, author.Level)
+	token, err := helper.GenerateToken(user.Identity.Hex(), user.Name, user.Level)
 	if err != nil {
 		c.JSON(http.StatusOK, gin.H{
 			"code": -1,
@@ -42,17 +42,17 @@ func Login(c *gin.Context) {
 		"msg":  "登录成功",
 		"data": gin.H{
 			"token": token,
-			"author": gin.H{
-				"name":  author.Name,
-				"email": author.Email,
-				"_id":   author.Identity,
+			"user": gin.H{
+				"name":  user.Name,
+				"email": user.Email,
+				"_id":   user.Identity,
 			},
 		},
 	})
 }
 
 func Register(c *gin.Context) {
-	json := model.Author{}
+	json := model.User{}
 	c.BindJSON(&json)
 	if json.Name == "" || json.Pwd == "" || json.Email == "" {
 		c.JSON(http.StatusOK, gin.H{
@@ -61,7 +61,7 @@ func Register(c *gin.Context) {
 		})
 		return
 	}
-	cnt, err := model.GetAuthorCountByEmail(json.Email)
+	cnt, err := model.GetUserCountByEmail(json.Email)
 	if err != nil {
 		log.Printf("[DB ERROR]:%v\n", err)
 		return
@@ -74,7 +74,7 @@ func Register(c *gin.Context) {
 		return
 	}
 
-	cnt2, err := model.GetAuthorCountByName(json.Name)
+	cnt2, err := model.GetUserCountByName(json.Name)
 	if err != nil {
 		log.Printf("[DB ERROR]:%v\n", err)
 		return
@@ -87,7 +87,7 @@ func Register(c *gin.Context) {
 		return
 	}
 
-	ub := &model.Author{
+	ub := &model.User{
 		Name:  json.Name,
 		Pwd:   helper.GetMd5(json.Pwd),
 		Email: json.Email,
@@ -95,10 +95,10 @@ func Register(c *gin.Context) {
 	}
 
 	if json.Identity.Hex() == "000000000000000000000000" {
-		err = model.InsertAuthor(ub)
+		err = model.InsertUser(ub)
 	} else {
 
-		err = model.UpdateAuthor(ub, json.Identity)
+		err = model.UpdateUser(ub, json.Identity)
 	}
 
 	if err != nil {
@@ -119,7 +119,7 @@ func UserDetail(c *gin.Context) {
 	id := c.Param("id")
 	// uc := u.(*helper.UserClaims)
 	oid, _ := primitive.ObjectIDFromHex(id)
-	author, err := model.GetAuthorByIdentity(oid)
+	user, err := model.GetUserByIdentity(oid)
 	if err != nil {
 		c.JSON(http.StatusOK, gin.H{
 			"code": -1,
@@ -131,9 +131,9 @@ func UserDetail(c *gin.Context) {
 		"code": 200,
 		"msg":  "数据加载成功",
 		"data": gin.H{
-			"name":  author.Name,
-			"email": author.Email,
-			"_id":   author.Identity,
+			"name":  user.Name,
+			"email": user.Email,
+			"_id":   user.Identity,
 		},
 	})
 }
@@ -147,7 +147,7 @@ func SendCode(c *gin.Context) {
 		})
 		return
 	}
-	cnt, err := model.GetAuthorCountByEmail(email)
+	cnt, err := model.GetUserCountByEmail(email)
 	if err != nil {
 		log.Printf("[DB ERROR]:%v\n", err)
 		return
