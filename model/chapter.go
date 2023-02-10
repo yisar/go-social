@@ -17,6 +17,15 @@ type Chapter struct {
 	Time     string             `json:"time"`
 }
 
+type Chapter2 struct {
+	Identity primitive.ObjectID `json:"_id" bson:"_id"`
+	Oid      int                `json:"oid"`
+	Nid      string             `json:"nid"`
+	Status   string             `json:"status"`
+	Title    string             `json:"title"`
+	Time     string             `json:"time"`
+}
+
 func (Chapter) CollectionName() string {
 	return "chapter"
 }
@@ -46,8 +55,8 @@ func UpdateChapter(chapter *Chapter, id primitive.ObjectID) error {
 	return err
 }
 
-func GetChapters(limit, skip *int64, nid string) ([]*Chapter, error) {
-	data := make([]*Chapter, 0)
+func GetChapters(limit, skip *int64, nid string) ([]*Chapter2, error) {
+	data := make([]*Chapter2, 0)
 	cursor, err := Mongo.Collection(Chapter{}.CollectionName()).
 		Find(context.Background(), bson.M{"nid": nid},
 			&options.FindOptions{
@@ -61,7 +70,7 @@ func GetChapters(limit, skip *int64, nid string) ([]*Chapter, error) {
 		return nil, err
 	}
 	for cursor.Next(context.Background()) {
-		mb := new(Chapter)
+		mb := new(Chapter2)
 		err = cursor.Decode(mb)
 		if err != nil {
 			return nil, err
