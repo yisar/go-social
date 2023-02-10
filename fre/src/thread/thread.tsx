@@ -1,6 +1,6 @@
 import { h, useEffect, useState } from 'fre'
 import { A, push } from '../use-route'
-import { addPost, getPosts, getThread, getUser } from '../util/api'
+import { addPost, getPostDetail, getPosts, getThread, getUser } from '../util/api'
 import './thread.css'
 
 export default function Thread(props) {
@@ -39,8 +39,10 @@ export default function Thread(props) {
         })
     }
 
-    function open(index) {
-        setIndex(index)
+    function open(id) {
+        getPostDetail(id).then(res=>{
+            console.log(res.data)
+        })
     }
 
     const user = getUser()||{}
@@ -71,7 +73,7 @@ export default function Thread(props) {
 
                 return <div class='post'>
                     <div onClick={() => {
-                        open(index)
+                        open(item._id)
                     }}>
                         <h2>{item.title}</h2>
                     </div>

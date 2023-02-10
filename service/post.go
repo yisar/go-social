@@ -66,7 +66,7 @@ func InsertPost(c *gin.Context) {
 func PostDetail(c *gin.Context) {
 	id := c.Param("id")
 	oid, _ := primitive.ObjectIDFromHex(id)
-	post, err := model.GetThreadByIdentity(oid)
+	post, err := model.GetPostByIdentity(oid)
 	if err != nil {
 		c.JSON(http.StatusOK, gin.H{
 			"code": -1,

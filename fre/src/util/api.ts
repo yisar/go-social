@@ -32,3 +32,7 @@ export function getThread(id){
 export function getPosts(tid){
   return get(`https://www.cuipiya.net/posts?tid=${tid}&page=1&pageSize=10`)
 }
+
+export function getPostDetail(id){
+  return get(`https://www.cuipiya.net/post/detail/${id}`)
+}
