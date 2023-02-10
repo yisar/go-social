@@ -1,6 +1,7 @@
 package service
 
 import (
+	"fmt"
 	"github.com/cliclitv/htwxc/model"
 	"github.com/gin-gonic/gin"
 	"go.mongodb.org/mongo-driver/bson/primitive"
@@ -8,7 +9,6 @@ import (
 	"net/http"
 	"strconv"
 	"time"
-	"fmt"
 )
 
 func InsertNovel(c *gin.Context) {
@@ -45,6 +45,7 @@ func InsertNovel(c *gin.Context) {
 		Bio:      json.Bio,
 		Size:     json.Size,
 		Aptitude: json.Aptitude,
+		Thumb:    json.Thumb,
 		Time:     time.Now().In(time.FixedZone("CST", 8*3600)).Format("2006-01-02 15:04"),
 	}
 
@@ -96,7 +97,7 @@ func GetNovels(c *gin.Context) {
 	if err != nil {
 		c.JSON(http.StatusOK, gin.H{
 			"code": -1,
-			"msg": fmt.Sprintf("%s", err),
+			"msg":  fmt.Sprintf("%s", err),
 		})
 		return
 	}
