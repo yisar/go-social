@@ -33,7 +33,7 @@ export default function Thread(props) {
         addPost({
             ...data,
             status: '发布',
-            nid: thread._id
+            tid: thread._id
         }).then(res => {
             alert(res.msg)
         })
@@ -45,7 +45,7 @@ export default function Thread(props) {
 
     const user = getUser()||{}
 
-    const isUser = thread.aid === user._id
+    const isUser = thread.uid === user._id
 
     return <div class='wrapper'>
         <div class='detail'>

@@ -19,7 +19,7 @@ type Thread struct {
 	Bio      string             `json:"bio"`
 	Tag      string             `json:"tag"`
 	Aptitude string             `json:"aptitude"`
-	Aid      string             `json:"aid"`
+	Uid      string             `json:"uid"`
 }
 
 func (Thread) CollectionName() string {
@@ -41,14 +41,14 @@ func GetThreadCountByName(name string) (int64, error) {
 
 func InsertThread(thread *Thread) error {
 	_, err := Mongo.Collection(Thread{}.CollectionName()).
-		InsertOne(context.Background(), bson.D{{"title", thread.Title}, {"content", thread.Content}, {"bio", thread.Bio}, {"status", thread.Status}, {"sort", thread.Sort}, {"size", thread.Size}, {"aptitude", thread.Aptitude}, {"tag", thread.Tag}, {"time", thread.Time}, {"aid", thread.Aid}, {"thumb", thread.Thumb}})
+		InsertOne(context.Background(), bson.D{{"title", thread.Title}, {"content", thread.Content}, {"bio", thread.Bio}, {"status", thread.Status}, {"sort", thread.Sort}, {"size", thread.Size}, {"aptitude", thread.Aptitude}, {"tag", thread.Tag}, {"time", thread.Time}, {"uid", thread.Uid}, {"thumb", thread.Thumb}})
 	return err
 }
 
 func UpdateThread(thread *Thread, id primitive.ObjectID) error {
 	_, err := Mongo.Collection(Thread{}.CollectionName()).
 		UpdateOne(context.Background(), bson.M{"_id": id}, bson.D{{"$set",
-			bson.D{{"title", thread.Title}, {"content", thread.Content}, {"bio", thread.Bio}, {"status", thread.Status}, {"sort", thread.Sort}, {"size", thread.Size}, {"aptitude", thread.Aptitude}, {"tag", thread.Tag}, {"time", thread.Time}, {"aid", thread.Aid}, {"thumb", thread.Thumb}},
+			bson.D{{"title", thread.Title}, {"content", thread.Content}, {"bio", thread.Bio}, {"status", thread.Status}, {"sort", thread.Sort}, {"size", thread.Size}, {"aptitude", thread.Aptitude}, {"tag", thread.Tag}, {"time", thread.Time}, {"uid", thread.Uid}, {"thumb", thread.Thumb}},
 		}})
 	return err
 }

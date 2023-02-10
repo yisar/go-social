@@ -14,7 +14,7 @@ import (
 func InsertPost(c *gin.Context) {
 	json := model.Post{}
 	c.BindJSON(&json)
-	if json.Title == "" || json.Content == "" || json.Nid == "" || json.Oid == 0 {
+	if json.Title == "" || json.Content == "" || json.Tid == "" || json.Oid == 0 {
 		c.JSON(http.StatusOK, gin.H{
 			"code": -1,
 			"msg":  "都是必填的！",
@@ -36,7 +36,7 @@ func InsertPost(c *gin.Context) {
 
 	post := &model.Post{
 		Oid:     json.Oid,
-		Nid:     json.Nid,
+		Tid:     json.Tid,
 		Status:  json.Status,
 		Title:   json.Title,
 		Content: json.Content,
@@ -82,13 +82,13 @@ func PostDetail(c *gin.Context) {
 }
 
 func GetPosts(c *gin.Context) {
-	nid := c.Query("nid")
+	tid := c.Query("tid")
 	// oid, _ := primitive.ObjectIDFromHex(id)
 
 	pageIndex, _ := strconv.ParseInt(c.Query("page"), 10, 32)
 	pageSize, _ := strconv.ParseInt(c.Query("pageSize"), 10, 32)
 	skip := (pageIndex - 1) * pageSize
-	posts, err := model.GetPosts(&pageSize, &skip, nid)
+	posts, err := model.GetPosts(&pageSize, &skip, tid)
 
 	if err != nil {
 		c.JSON(http.StatusOK, gin.H{

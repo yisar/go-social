@@ -15,7 +15,7 @@ const tags = [["甜文", "虐文", "爽文", '狗血', '意识流'],
 
 export default function Upload(props) {
     const [data, setData] = useState({
-        tag: '', aid: getUser()._id,
+        tag: '', uid: getUser()._id,
     } as any)
 
 
@@ -23,13 +23,13 @@ export default function Upload(props) {
         getThread(props.id).then(res => {
             setData({
                 ...data,
-                aid: res.data.aid,
+                uid: res.data.uid,
                 ...res.data
             })
         })
     }, [])
 
-    console.log(data.aid)
+    console.log(data.uid)
 
     function changeData(key, val) {
         setData({

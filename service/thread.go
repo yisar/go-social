@@ -15,7 +15,7 @@ func InsertThread(c *gin.Context) {
 	json := model.Thread{}
 	c.BindJSON(&json)
 	log.Printf("%v", &json)
-	if json.Title == "" || json.Content == "" || json.Sort == "" || json.Tag == "" || json.Aid == "" || json.Status == "" || json.Size == "" || json.Aptitude == "" || json.Bio == "" {
+	if json.Title == "" || json.Content == "" || json.Sort == "" || json.Tag == "" || json.Uid == "" || json.Status == "" || json.Size == "" || json.Aptitude == "" || json.Bio == "" {
 		c.JSON(http.StatusOK, gin.H{
 			"code": -1,
 			"msg":  "都是必填的！",
@@ -41,7 +41,7 @@ func InsertThread(c *gin.Context) {
 		Sort:     json.Sort,
 		Status:   json.Status,
 		Tag:      json.Tag,
-		Aid:      json.Aid,
+		Uid:      json.Uid,
 		Bio:      json.Bio,
 		Size:     json.Size,
 		Aptitude: json.Aptitude,
@@ -53,7 +53,7 @@ func InsertThread(c *gin.Context) {
 		err = model.InsertThread(thread)
 	} else {
 		token := c.GetHeader("token")
-		err = Auth(json.Aid, token)
+		err = Auth(json.Uid, token)
 		if err != nil {
 			c.JSON(http.StatusOK, gin.H{
 				"code": -1,

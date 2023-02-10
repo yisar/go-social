@@ -10,7 +10,7 @@ import (
 type Post struct {
 	Identity primitive.ObjectID `json:"_id" bson:"_id"`
 	Oid      int                `json:"oid"`
-	Nid      string             `json:"nid"`
+	Tid      string             `json:"tid"`
 	Status   string             `json:"status"`
 	Title    string             `json:"title"`
 	Content  string             `json:"content"`
@@ -20,7 +20,7 @@ type Post struct {
 type Post2 struct {
 	Identity primitive.ObjectID `json:"_id" bson:"_id"`
 	Oid      int                `json:"oid"`
-	Nid      string             `json:"nid"`
+	Tid      string             `json:"tid"`
 	Status   string             `json:"status"`
 	Title    string             `json:"title"`
 	Time     string             `json:"time"`
@@ -45,20 +45,20 @@ func GetPostCountByName(name string) (int64, error) {
 
 func InsertPost(post *Post) error {
 	_, err := Mongo.Collection(Post{}.CollectionName()).
-		InsertOne(context.Background(), bson.D{{"oid", post.Oid}, {"title", post.Title}, {"content", post.Content}, {"status", post.Status}, {"time", post.Time}, {"nid", post.Nid}})
+		InsertOne(context.Background(), bson.D{{"oid", post.Oid}, {"title", post.Title}, {"content", post.Content}, {"status", post.Status}, {"time", post.Time}, {"tid", post.Tid}})
 	return err
 }
 
 func UpdatePost(post *Post, id primitive.ObjectID) error {
 	_, err := Mongo.Collection(Post{}.CollectionName()).
-		UpdateOne(context.Background(), bson.M{"_id": id}, bson.D{{"oid", post.Oid}, {"title", post.Title}, {"content", post.Content}, {"status", post.Status}, {"time", post.Time}, {"nid", post.Nid}})
+		UpdateOne(context.Background(), bson.M{"_id": id}, bson.D{{"oid", post.Oid}, {"title", post.Title}, {"content", post.Content}, {"status", post.Status}, {"time", post.Time}, {"tid", post.Tid}})
 	return err
 }
 
-func GetPosts(limit, skip *int64, nid string) ([]*Post2, error) {
+func GetPosts(limit, skip *int64, tid string) ([]*Post2, error) {
 	data := make([]*Post2, 0)
 	cursor, err := Mongo.Collection(Post{}.CollectionName()).
-		Find(context.Background(), bson.M{"nid": nid},
+		Find(context.Background(), bson.M{"tid": tid},
 			&options.FindOptions{
 				Limit: limit,
 				Skip:  skip,

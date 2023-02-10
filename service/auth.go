@@ -9,13 +9,13 @@ import (
 	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
-func Auth(aid string, token string) error {
+func Auth(uid string, token string) error {
 	userClaims, err := helper.AnalyseToken(token)
 	if err != nil {
 		return err
 	}
 	// 查找当前用户
-	objectID, _ := primitive.ObjectIDFromHex(aid)
+	objectID, _ := primitive.ObjectIDFromHex(uid)
 	user, err := model.GetUserByIdentity(objectID)
 
 	fmt.Println(userClaims.Name)
