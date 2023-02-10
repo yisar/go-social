@@ -3,28 +3,11 @@ package main
 import (
 	"github.com/gin-gonic/gin"
 	"github.com/cliclitv/htwxc/service"
-	"github.com/cliclitv/htwxc/helper"
 	"net/http"
 	"embed"
 	"io/fs"
 )
 
-func AuthCheck() gin.HandlerFunc {
-	return func(c *gin.Context) {
-		token := c.GetHeader("token")
-		userClaims, err := helper.AnalyseToken(token)
-		if err != nil {
-			c.Abort()
-			c.JSON(http.StatusOK, gin.H{
-				"code": -1,
-				"msg":  "用户认证不通过",
-			})
-			return
-		}
-		c.Set("user", userClaims)
-		c.Next()
-	}
-}
 
 //go:embed fre/dist
 var embededFiles embed.FS

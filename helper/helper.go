@@ -12,12 +12,11 @@ import (
 
 type UserClaims struct {
 	Identity primitive.ObjectID `json:"identity"`
-	Email    string             `json:"email"`
+	Name     string             `json:"name"`
+	Level    int                `json:"level"`
 	jwt.StandardClaims
 }
 
-// GetMd5
-// 生成 md5
 func GetMd5(s string) string {
 	tmp := md5.Sum([]byte(s))
 	nextPwd := fmt.Sprintf("%x", tmp)
@@ -26,18 +25,16 @@ func GetMd5(s string) string {
 	return newPwd
 }
 
-var myKey = []byte("im")
+var myKey = []byte("cuipiya")
 
-// GenerateToken
-// 生成 token
-func GenerateToken(identity, email string) (string, error) {
+func GenerateToken(identity string, level int) (string, error) {
 	objectID, err := primitive.ObjectIDFromHex(identity)
 	if err != nil {
 		return "", err
 	}
 	UserClaim := &UserClaims{
 		Identity:       objectID,
-		Email:          email,
+		Level:          level,
 		StandardClaims: jwt.StandardClaims{},
 	}
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, UserClaim)
@@ -48,8 +45,6 @@ func GenerateToken(identity, email string) (string, error) {
 	return tokenString, nil
 }
 
-// AnalyseToken
-// 解析 token
 func AnalyseToken(tokenString string) (*UserClaims, error) {
 	userClaim := new(UserClaims)
 	claims, err := jwt.ParseWithClaims(tokenString, userClaim, func(token *jwt.Token) (interface{}, error) {

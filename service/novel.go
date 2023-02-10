@@ -52,6 +52,15 @@ func InsertNovel(c *gin.Context) {
 	if json.Identity.Hex() == "000000000000000000000000" {
 		err = model.InsertNovel(novel)
 	} else {
+		token := c.GetHeader("token")
+		err = Auth(json.Aid, token)
+		if err != nil {
+			c.JSON(http.StatusOK, gin.H{
+				"code": -1,
+				"msg":  fmt.Sprintf("%s", err),
+			})
+			return
+		}
 		err = model.UpdateNovel(novel, json.Identity)
 	}
 
