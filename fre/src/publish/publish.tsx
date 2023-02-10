@@ -15,15 +15,9 @@ const tags = [["甜文", "虐文", "爽文", '狗血', '意识流'],
 
 export default function Upload(props) {
     const [data, setData] = useState({
-        tag: ''
+        tag: '', aid: getUser()._id,
     } as any)
 
-    useEffect(() => {
-        setData({
-            ...data,
-            aid: getUser()._id
-        })
-    }, [])
 
     useEffect(() => {
         getNovel(props.id).then(res => {
