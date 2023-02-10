@@ -34,9 +34,15 @@ func GetChapterCountByName(name string) (int64, error) {
 		CountDocuments(context.Background(), bson.D{{"name", name}})
 }
 
-func UpdateChapter(chapter *Chapter) error {
+func InsertChapter(chapter *Chapter) error {
 	_, err := Mongo.Collection(Chapter{}.CollectionName()).
 		InsertOne(context.Background(), bson.D{{"oid", chapter.Oid}, {"title", chapter.Title}, {"content", chapter.Content}, {"status", chapter.Status}, {"time", chapter.Time}, {"nid", chapter.Nid}})
+	return err
+}
+
+func UpdateChapter(chapter *Chapter, id primitive.ObjectID) error {
+	_, err := Mongo.Collection(Chapter{}.CollectionName()).
+		UpdateByID(context.Background(), bson.M{"_id": id}, bson.D{{"oid", chapter.Oid}, {"title", chapter.Title}, {"content", chapter.Content}, {"status", chapter.Status}, {"time", chapter.Time}, {"nid", chapter.Nid}})
 	return err
 }
 

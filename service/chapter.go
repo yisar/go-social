@@ -1,19 +1,19 @@
 package service
 
 import (
+	"fmt"
+	"github.com/cliclitv/htwxc/model"
 	"github.com/gin-gonic/gin"
 	"go.mongodb.org/mongo-driver/bson/primitive"
-	"github.com/cliclitv/htwxc/model"
 	"log"
 	"net/http"
-	"time"
-	"fmt"
 	"strconv"
+	"time"
 )
 
 func InsertChapter(c *gin.Context) {
 	json := model.Chapter{}
- 	c.BindJSON(&json)
+	c.BindJSON(&json)
 	if json.Title == "" || json.Content == "" || json.Nid == "" || json.Oid == 0 {
 		c.JSON(http.StatusOK, gin.H{
 			"code": -1,
@@ -35,15 +35,19 @@ func InsertChapter(c *gin.Context) {
 	}
 
 	chapter := &model.Chapter{
-		Oid: json.Oid,
-		Nid: json.Nid,
-		Status: json.Status,
-		Title: json.Title,
+		Oid:     json.Oid,
+		Nid:     json.Nid,
+		Status:  json.Status,
+		Title:   json.Title,
 		Content: json.Content,
-		Time: time.Now().In(time.FixedZone("CST", 8*3600)).Format("2006-01-02 15:04"),
+		Time:    time.Now().In(time.FixedZone("CST", 8*3600)).Format("2006-01-02 15:04"),
 	}
 
-	err = model.UpdateChapter(chapter)
+	if json.Identity.Hex() == "000000000000000000000000" {
+		err = model.InsertChapter(chapter)
+	} else {
+		err = model.UpdateChapter(chapter, json.Identity)
+	}
 
 	if err != nil {
 		c.JSON(http.StatusOK, gin.H{
@@ -89,7 +93,7 @@ func GetChapters(c *gin.Context) {
 	if err != nil {
 		c.JSON(http.StatusOK, gin.H{
 			"code": -1,
-			"msg": fmt.Sprintf("%s", err),
+			"msg":  fmt.Sprintf("%s", err),
 		})
 		return
 	}
