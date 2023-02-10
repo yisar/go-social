@@ -33,8 +33,8 @@ var embededFiles embed.FS
 var html string
 
 var whiteOrigins = [5]string{
-	"https://www.htwxc.com",
-	"https://htwxc.com",
+	"https://www.cuipiya.net",
+	"https://cuipiya.net",
 	"http://localhost:3000",
 }
 

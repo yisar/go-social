@@ -1,11 +1,11 @@
 import { get, post } from './post'
 
 export function loginPost(user){
-  return post(`https://www.htwxc.com/login`, user)
+  return post(`https://www.cuipiya.net/login`, user)
 }
 
 export function registerUser(user){
-  return post(`https://www.htwxc.com/register`, user)
+  return post(`https://www.cuipiya.net/register`, user)
 }
 
 export function getUser(){
@@ -14,21 +14,21 @@ export function getUser(){
 }
 
 export function publishNovel(data){
-  return post(`https://www.htwxc.com/novel/add`, data)
+  return post(`https://www.cuipiya.net/novel/add`, data)
 }
 
 export function addChapter(data){
-  return post(`https://www.htwxc.com/chapter/add`, data)
+  return post(`https://www.cuipiya.net/chapter/add`, data)
 }
 
 export function getNovels(sort){
-  return get(`https://www.htwxc.com/novels?sort=${sort}&page=1&pageSize=10`)
+  return get(`https://www.cuipiya.net/novels?sort=${sort}&page=1&pageSize=10`)
 }
 
 export function getNovel(id){
-  return get(`https://www.htwxc.com/novel/detail/${id}`)
+  return get(`https://www.cuipiya.net/novel/detail/${id}`)
 }
 
 export function getChapters(nid){
-  return get(`https://www.htwxc.com/chapters?nid=${nid}&page=1&pageSize=10`)
+  return get(`https://www.cuipiya.net/chapters?nid=${nid}&page=1&pageSize=10`)
 }
