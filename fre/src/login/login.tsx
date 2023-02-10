@@ -16,17 +16,18 @@ export default function Login() {
     }
 
     function login() {
-        loginPost({name, pwd}).then((res:any)=>{
-            if(res.code > 0){
+        loginPost({ name, pwd }).then((res: any) => {
+            if (res.code > 0) {
                 alert("登录成功")
                 window.localStorage.setItem('token', res.data.token)
                 window.localStorage.setItem('author', JSON.stringify(res.data.author))
-                push('/') 
+                push('/')
             }
         })
     }
     return <div class="login">
-        <li><h1>脆皮鸭。</h1><h2>文学城</h2></li>
+        <li><i class='iconfont icon-ya'></i>
+        </li>
         <li><input type="text" placeholder="笔名" onInput={(e) => changeName(e.target.value)} /></li>
         <li><input type="text" placeholder="密码" onInput={(e) => changePwd(e.target.value)} /></li>
         <li><button onClick={login}>登录</button></li>

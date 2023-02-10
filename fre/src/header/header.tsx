@@ -8,7 +8,7 @@ export default function Header() {
     const user = getUser() || {}
     return <header>
         <div className="wrapper">
-            <div className="logo" onClick={()=>push('/')}>HenTai</div>
+            <div className="logo" onClick={()=>push('/')}><i class="iconfont icon-ya"></i></div>
             <nav>
                 <li>Library</li>
                 <li>Forum</li>

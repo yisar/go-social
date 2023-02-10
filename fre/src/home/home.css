@@ -1,13 +1,13 @@
 .panel {
-    border: 1px solid #bbb;
+    border: 1px solid #ccecff;
     border-radius: 4px;
-    background: #eee;
+    background: #fff;
     margin: 20px 0;
     padding: 10px;
 }
 
 .panel h1 {
-    border-bottom: 1px solid #bbb;
+    border-bottom: 1px solid #ccecff;
     padding: 10px;
     margin: 10px;
 }
@@ -20,7 +20,7 @@
     font-weight: bold;
     font-size: 18px;
     padding: 10px 0;
-    /* border-bottom: 1px dashed #bbb; */
+    /* border-bottom: 1px dashed #ccecff; */
 }
 
 .panel .no span {
