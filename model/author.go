@@ -2,6 +2,8 @@ package model
 
 import (
 	"context"
+	"fmt"
+
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 )
@@ -18,10 +20,11 @@ func (Author) CollectionName() string {
 	return "author"
 }
 
-func GetAuthorByAccountPassword(account, password string) (*Author, error) {
+func GetAuthorByAccountPassword(name, pwd string) (*Author, error) {
+	fmt.Println(name, pwd)
 	ub := new(Author)
 	err := Mongo.Collection(Author{}.CollectionName()).
-		FindOne(context.Background(), bson.D{{"name", account}, {"pwd", password}}).
+		FindOne(context.Background(), bson.D{{"name", name}, {"pwd", pwd}}).
 		Decode(ub)
 	return ub, err
 }

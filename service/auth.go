@@ -2,6 +2,7 @@ package service
 
 import (
 	"errors"
+	"fmt"
 
 	"github.com/cliclitv/htwxc/helper"
 	"github.com/cliclitv/htwxc/model"
@@ -16,6 +17,8 @@ func Auth(aid string, token string) error {
 	// 查找当前用户
 	objectID, err := primitive.ObjectIDFromHex(aid)
 	user, err := model.GetAuthorByIdentity(objectID)
+
+	fmt.Println(userClaims.Name)
 
 	if err != nil {
 		return err

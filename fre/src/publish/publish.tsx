@@ -23,7 +23,7 @@ export default function Upload(props) {
         getNovel(props.id).then(res => {
             setData({
                 ...data,
-                aid: res.data._id,
+                aid: res.data.aid,
                 ...res.data
             })
         })

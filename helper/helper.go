@@ -27,7 +27,7 @@ func GetMd5(s string) string {
 
 var myKey = []byte("cuipiya")
 
-func GenerateToken(identity string, level int) (string, error) {
+func GenerateToken(identity,name string, level int) (string, error) {
 	objectID, err := primitive.ObjectIDFromHex(identity)
 	if err != nil {
 		return "", err

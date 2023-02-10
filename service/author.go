@@ -29,7 +29,7 @@ func Login(c *gin.Context) {
 		})
 		return
 	}
-	token, err := helper.GenerateToken(author.Identity.Hex(), author.Level)
+	token, err := helper.GenerateToken(author.Identity.Hex(), author.Name, author.Level)
 	if err != nil {
 		c.JSON(http.StatusOK, gin.H{
 			"code": -1,
@@ -94,14 +94,12 @@ func Register(c *gin.Context) {
 		Level: 0,
 	}
 
-	
 	if json.Identity.Hex() == "000000000000000000000000" {
 		err = model.InsertAuthor(ub)
 	} else {
 
 		err = model.UpdateAuthor(ub, json.Identity)
 	}
-
 
 	if err != nil {
 		c.JSON(http.StatusOK, gin.H{
