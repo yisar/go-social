@@ -1,5 +1,5 @@
 import { h, useEffect, useState } from 'fre'
-import { A } from '../use-route'
+import { A, push } from '../use-route'
 import { addChapter, getChapters, getNovel, getUser } from '../util/api'
 import './novel.css'
 
@@ -61,6 +61,7 @@ export default function Novel(props) {
                 {novel.tag && novel.tag.split(' ').filter(t => t.length > 0).map(tag => {
                     return <li>#{tag}</li>
                 })}
+                <li onClick={()=>push(`/publish/${novel._id}`)}>编辑小说</li>
             </ul>
         </div>
 
