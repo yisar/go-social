@@ -74,6 +74,7 @@ func Router() *gin.Engine {
 	r.POST("/register", service.Register)
 	r.POST("/sendcode", service.SendCode)
 	r.POST("/novel/add", service.InsertNovel)
+	r.POST("/novel/update", service.UpdateNovel)
 	r.POST("/chapter/add", service.InsertChapter)
 	
 	r.GET("/novel/detail/:id", service.NovelDetail)

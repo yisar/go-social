@@ -10,10 +10,9 @@ export default function Home() {
             setList(res.data)
         })
     }, [])
-    console.log(list)
     return <div class='wrapper'>
         <List name='原创区' list={list} />
-        <List name='同人区' list={list} />
+        {/* <List name='同人区' list={list} /> */}
 
     </div>
 }

@@ -7,7 +7,7 @@ import './app.css'
 
 const routes = {
     '/': import('./home/home'),
-    '/publish': import('./publish/publish'),
+    '/publish/:id': import('./publish/publish'),
     '/login': import('./login/login'),
     '/register': import('./login/register'),
     '/novel/:id': import('./novel/novel'),

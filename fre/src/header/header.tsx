@@ -12,7 +12,7 @@ export default function Header() {
             <nav>
                 <li>Library</li>
                 <li>Forum</li>
-                <li onClick={()=>push('/publish')}>Publish</li>
+                <li onClick={()=>push('/publish/0')}>Publish</li>
             </nav>
             <div className="avatar"><img src={getAvatar(user.email)} alt="" /></div>
         </div>

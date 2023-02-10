@@ -1,5 +1,5 @@
 import { h, render, useEffect, useState } from 'fre'
-import { getUser, loginPost, publishNovel } from '../util/api'
+import { getNovel, getUser, loginPost, publishNovel } from '../util/api'
 import { getAvatar } from '../util/avatar'
 import './publish.css'
 
@@ -13,7 +13,7 @@ const tags = [["甜文", "虐文", "爽文", '狗血', '意识流'],
 ['霹雳', '原神'],
 ['授权翻译', '授权转载']]
 
-export default function Upload() {
+export default function Upload(props) {
     const [data, setData] = useState({
         tag: ''
     } as any)
@@ -22,6 +22,15 @@ export default function Upload() {
         setData({
             ...data,
             aid: getUser()._id
+        })
+    }, [])
+
+    useEffect(() => {
+        getNovel(props.id).then(res => {
+            setData({
+                ...data,
+                ...res.data
+            })
         })
     }, [])
 
@@ -61,17 +70,17 @@ export default function Upload() {
         <h1>Pubulsh Novel</h1>
         <ul>
             <li><h2>请输入题目</h2></li>
-            <li><input type="text" onInput={e => changeData('title', e.target.value)} /></li>
+            <li><input type="text" onInput={e => changeData('title', e.target.value)} value={data.title} /></li>
         </ul>
         <ul>
             <li><h2>请输入封面</h2></li>
-            <li><input type="text" onInput={e => changeData('thumb', e.target.value)} /></li>
+            <li><input type="text" onInput={e => changeData('thumb', e.target.value)} value={data.thumb} /></li>
         </ul>
         <ul>
             <li><h2>请选择分类</h2></li>
-            <li><input type="radio" value="原创" name="sort" id='原创' onInput={e => changeData('sort', e.target.value)} />
+            <li><input type="radio" value="原创" name="sort" id='原创' onInput={e => changeData('sort', e.target.value)} checked={data.sort === "原创"} />
                 <label htmlFor="原创">原创</label></li>
-            <li><input type="radio" value="同人" name="sort" id='同人' onInput={e => changeData('sort', e.target.value)} />
+            <li><input type="radio" value="同人" name="sort" id='同人' onInput={e => changeData('sort', e.target.value)} checked={data.sort === "同人"} />
                 <label htmlFor="同人">同人</label></li>
         </ul>
         <ul>
@@ -85,9 +94,9 @@ export default function Upload() {
         </ul>
         <ul>
             <li><h2>请选择篇幅</h2></li>
-            <li>            <input type="radio" value="短篇" name="size" id="短篇" onInput={e => changeData('size', e.target.value)} />
+            <li>            <input type="radio" value="短篇" name="size" id="短篇" onInput={e => changeData('size', e.target.value)} checked={data.size === "短篇"} />
                 <label htmlFor="短篇">短篇</label></li>
-            <li><input type="radio" value="长篇" name='size' id='长篇' onInput={e => changeData('size', e.target.value)} />
+            <li><input type="radio" value="长篇" name='size' id='长篇' onInput={e => changeData('size', e.target.value)} checked={data.size === "长篇"} />
                 <label htmlFor="长篇">长篇</label></li>
 
         </ul>
@@ -100,7 +109,7 @@ export default function Upload() {
         </ul>
         <ul>
             <li><h2>请输入一句话简介</h2></li>
-            <li><input type="text" onInput={e => changeData('bio', e.target.value)} /></li>
+            <li><input type="text" onInput={e => changeData('bio', e.target.value)} value={data.bio} /></li>
         </ul>
         <ul class="tags">
             <li><h2>请选择标签</h2></li>
@@ -111,7 +120,7 @@ export default function Upload() {
         </ul>
         <ul>
             <li><h2>请输入文案</h2></li>
-            <li><input type="text" onInput={e => changeData('content', e.target.value)} /></li>
+            <li><input type="text" onInput={e => changeData('content', e.target.value)} value={data.content} /></li>
         </ul>
 
         <button onClick={publish}>发布</button>
