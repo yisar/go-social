@@ -7,7 +7,7 @@ export default function List(props) {
         <ul>
             {props.list.map((item, index) => {
                 // console.log(index, item)
-                return <A href={`/novel/${item._id}`}><li class='no'>《{item.title}》<span>{item.bio}</span></li></A>
+                return <A href={`/thread/${item._id}`}><li class='no'>《{item.title}》<span>{item.bio}</span></li></A>
             })}
         </ul>
     </div>

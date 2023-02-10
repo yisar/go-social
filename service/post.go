@@ -11,18 +11,17 @@ import (
 	"time"
 )
 
-func InsertNovel(c *gin.Context) {
-	json := model.Novel{}
+func InsertPost(c *gin.Context) {
+	json := model.Post{}
 	c.BindJSON(&json)
-	log.Printf("%v", &json)
-	if json.Title == "" || json.Content == "" || json.Sort == "" || json.Tag == "" || json.Aid == "" || json.Status == "" || json.Size == "" || json.Aptitude == "" || json.Bio == "" {
+	if json.Title == "" || json.Content == "" || json.Nid == "" || json.Oid == 0 {
 		c.JSON(http.StatusOK, gin.H{
 			"code": -1,
 			"msg":  "都是必填的！",
 		})
 		return
 	}
-	cnt, err := model.GetNovelCountByName(json.Title)
+	cnt, err := model.GetPostCountByName(json.Title)
 	if err != nil {
 		log.Printf("[DB ERROR]:%v\n", err)
 		return
@@ -35,33 +34,19 @@ func InsertNovel(c *gin.Context) {
 		return
 	}
 
-	novel := &model.Novel{
-		Title:    json.Title,
-		Content:  json.Content,
-		Sort:     json.Sort,
-		Status:   json.Status,
-		Tag:      json.Tag,
-		Aid:      json.Aid,
-		Bio:      json.Bio,
-		Size:     json.Size,
-		Aptitude: json.Aptitude,
-		Thumb:    json.Thumb,
-		Time:     time.Now().In(time.FixedZone("CST", 8*3600)).Format("2006-01-02 15:04"),
+	post := &model.Post{
+		Oid:     json.Oid,
+		Nid:     json.Nid,
+		Status:  json.Status,
+		Title:   json.Title,
+		Content: json.Content,
+		Time:    time.Now().In(time.FixedZone("CST", 8*3600)).Format("2006-01-02 15:04"),
 	}
 
 	if json.Identity.Hex() == "000000000000000000000000" {
-		err = model.InsertNovel(novel)
+		err = model.InsertPost(post)
 	} else {
-		token := c.GetHeader("token")
-		err = Auth(json.Aid, token)
-		if err != nil {
-			c.JSON(http.StatusOK, gin.H{
-				"code": -1,
-				"msg":  fmt.Sprintf("%s", err),
-			})
-			return
-		}
-		err = model.UpdateNovel(novel, json.Identity)
+		err = model.UpdatePost(post, json.Identity)
 	}
 
 	if err != nil {
@@ -78,13 +63,11 @@ func InsertNovel(c *gin.Context) {
 	})
 }
 
-func NovelDetail(c *gin.Context) {
+func PostDetail(c *gin.Context) {
 	id := c.Param("id")
-	// uc := u.(*helper.UserClaims)
 	oid, _ := primitive.ObjectIDFromHex(id)
-	novel, err := model.GetNovelByIdentity(oid)
+	post, err := model.GetThreadByIdentity(oid)
 	if err != nil {
-		log.Printf("[DB ERROR]:%v\n", err)
 		c.JSON(http.StatusOK, gin.H{
 			"code": -1,
 			"msg":  fmt.Sprintf("%s", err),
@@ -94,18 +77,18 @@ func NovelDetail(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{
 		"code": 200,
 		"msg":  "数据加载成功",
-		"data": novel,
+		"data": post,
 	})
 }
 
-func GetNovels(c *gin.Context) {
-	sort := c.Query("sort")
+func GetPosts(c *gin.Context) {
+	nid := c.Query("nid")
 	// oid, _ := primitive.ObjectIDFromHex(id)
 
 	pageIndex, _ := strconv.ParseInt(c.Query("page"), 10, 32)
 	pageSize, _ := strconv.ParseInt(c.Query("pageSize"), 10, 32)
 	skip := (pageIndex - 1) * pageSize
-	novels, err := model.GetNovels(&pageSize, &skip, sort)
+	posts, err := model.GetPosts(&pageSize, &skip, nid)
 
 	if err != nil {
 		c.JSON(http.StatusOK, gin.H{
@@ -118,6 +101,6 @@ func GetNovels(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{
 		"code": 200,
 		"msg":  "数据加载成功",
-		"data": novels,
+		"data": posts,
 	})
 }

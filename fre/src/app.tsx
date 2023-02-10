@@ -10,7 +10,7 @@ const routes = {
     '/publish/:id': import('./publish/publish'),
     '/login': import('./login/login'),
     '/register': import('./login/register'),
-    '/novel/:id': import('./novel/novel'),
+    '/thread/:id': import('./novel/novel'),
 }
 
 const App = () => {

@@ -1,5 +1,5 @@
 import { h, render, useEffect, useState } from 'fre'
-import { getNovel, getUser, loginPost, publishNovel } from '../util/api'
+import { getThread, getUser, loginPost, publishThread } from '../util/api'
 import { getAvatar } from '../util/avatar'
 import './publish.css'
 
@@ -20,7 +20,7 @@ export default function Upload(props) {
 
 
     useEffect(() => {
-        getNovel(props.id).then(res => {
+        getThread(props.id).then(res => {
             setData({
                 ...data,
                 aid: res.data.aid,
@@ -58,12 +58,12 @@ export default function Upload(props) {
             alert('全部都要填！')
         }
 
-        publishNovel(data).then(res => {
+        publishThread(data).then(res => {
             alert(res.msg)
         })
     }
     return <div class="wrapper upload">
-        <h1>Pubulsh Novel</h1>
+        <h1>Pubulsh Thread</h1>
         <ul>
             <li><h2>请输入题目</h2></li>
             <li><input type="text" onInput={e => changeData('title', e.target.value)} value={data.title} /></li>

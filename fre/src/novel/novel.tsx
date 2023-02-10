@@ -1,20 +1,20 @@
 import { h, useEffect, useState } from 'fre'
 import { A, push } from '../use-route'
-import { addChapter, getChapters, getNovel, getUser } from '../util/api'
-import './novel.css'
+import { addPost, getPosts, getThread, getUser } from '../util/api'
+import './thread.css'
 
-export default function Novel(props) {
+export default function Thread(props) {
     const id = props.id
 
-    const [novel, setNovel] = useState({} as any)
+    const [thread, setThread] = useState({} as any)
     const [data, setData] = useState({} as any)
     const [list, setList] = useState([])
     const [current, setIndex] = useState(0)
 
     useEffect(() => {
-        getNovel(id).then(res => {
-            setNovel(res.data)
-            getChapters(res.data._id).then(res2 => {
+        getThread(id).then(res => {
+            setThread(res.data)
+            getPosts(res.data._id).then(res2 => {
                 setList(res2.data)
             })
         })
@@ -30,10 +30,10 @@ export default function Novel(props) {
 
 
     function publish() {
-        addChapter({
+        addPost({
             ...data,
             status: '发布',
-            nid: novel._id
+            nid: thread._id
         }).then(res => {
             alert(res.msg)
         })
@@ -45,23 +45,23 @@ export default function Novel(props) {
 
     const user = getUser()||{}
 
-    const isAuthor = novel.aid === user._id
+    const isAuthor = thread.aid === user._id
 
     return <div class='wrapper'>
         <div class='detail'>
-            <h1>《{novel.title}》</h1>
-            <p>{novel.content}</p>
+            <h1>《{thread.title}》</h1>
+            <p>{thread.content}</p>
             <ul class='info'>
-                <li>{novel.status}</li>
-                <li>{novel.size}</li>
-                <li>{novel.aptitude}</li>
-                <li>{novel.sort}</li>
+                <li>{thread.status}</li>
+                <li>{thread.size}</li>
+                <li>{thread.aptitude}</li>
+                <li>{thread.sort}</li>
             </ul>
             <ul class='tag'>
-                {novel.tag && novel.tag.split(' ').filter(t => t.length > 0).map(tag => {
+                {thread.tag && thread.tag.split(' ').filter(t => t.length > 0).map(tag => {
                     return <li>#{tag}</li>
                 })}
-                <li onClick={()=>push(`/publish/${novel._id}`)}>编辑小说</li>
+                <li onClick={()=>push(`/publish/${thread._id}`)}>编辑小说</li>
             </ul>
         </div>
 
@@ -69,7 +69,7 @@ export default function Novel(props) {
             {list.map((item, index) => {
                 // const content = item.content.replace(/\s+/g,'\n')
 
-                return <div class='chapter'>
+                return <div class='post'>
                     <div onClick={() => {
                         open(index)
                     }}>

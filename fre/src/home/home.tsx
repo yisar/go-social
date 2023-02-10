@@ -1,12 +1,12 @@
 import { h, useEffect, useState } from 'fre'
-import { getNovels } from '../util/api'
+import { getThreads } from '../util/api'
 import './home.css'
 import List from '../list/list'
 
 export default function Home() {
     const [list, setList] = useState([])
     useEffect(() => {
-        getNovels('原创').then((res: any) => {
+        getThreads('原创').then((res: any) => {
             setList(res.data)
         })
     }, [])
