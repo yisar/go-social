@@ -23,13 +23,15 @@ export default function Upload(props) {
         getNovel(props.id).then(res => {
             setData({
                 ...data,
+                aid: res.data._id,
                 ...res.data
             })
         })
     }, [])
 
+    console.log(data.aid)
+
     function changeData(key, val) {
-        console.log(key, val)
         setData({
             ...data,
             [key]: val,
