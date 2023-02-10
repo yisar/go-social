@@ -48,12 +48,13 @@ export default function Register({ id }) {
         registerUser({
             name,
             pwd,
-            email
-        }).then(res=>{
-          alert("注册成功啦~")
-          setLoading(false)
+            email,
+            level: 0
+        }).then(res => {
+            alert("注册成功啦~")
+            setLoading(false)
         })
-        
+
     }
     function logout() {
         localStorage.clear()

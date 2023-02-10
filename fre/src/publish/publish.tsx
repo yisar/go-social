@@ -49,7 +49,7 @@ export default function Upload() {
     }
 
     function publish() {
-        if (Object.keys(data).length < 8) {
+        if (Object.keys(data).length < 9) {
             alert('全部都要填！')
         }
 
@@ -62,6 +62,10 @@ export default function Upload() {
         <ul>
             <li><h2>请输入题目</h2></li>
             <li><input type="text" onInput={e => changeData('title', e.target.value)} /></li>
+        </ul>
+        <ul>
+            <li><h2>请输入封面</h2></li>
+            <li><input type="text" onInput={e => changeData('thumb', e.target.value)} /></li>
         </ul>
         <ul>
             <li><h2>请选择分类</h2></li>
