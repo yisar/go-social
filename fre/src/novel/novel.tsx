@@ -67,14 +67,13 @@ export default function Novel(props) {
 
         <div class='list'>
             {list.map((item, index) => {
-                const content = item.content.replace(/\s+/g,'\n')
+                // const content = item.content.replace(/\s+/g,'\n')
 
                 return <div class='chapter'>
                     <div onClick={() => {
                         open(index)
                     }}>
                         <h2>{item.title}</h2>
-                        {index === current && <pre>{content}</pre>}
                     </div>
                 </div>
             })}

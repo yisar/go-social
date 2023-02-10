@@ -11,7 +11,7 @@ const tags = [["甜文", "虐文", "爽文", '狗血', '意识流'],
 ['ABO', '生子', '哨兵', '支服'],
 ['娱乐圈', '宫廷', '网游'],
 ['霹雳', '原神'],
-['授权翻译', '授权转载']]
+['授权转载', '无版权转载']]
 
 export default function Upload(props) {
     const [data, setData] = useState({
