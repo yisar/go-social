@@ -14,7 +14,7 @@ import (
 func InsertPost(c *gin.Context) {
 	json := model.Post{}
 	c.BindJSON(&json)
-	if json.Title == "" || json.Content == "" || json.Tid == "" || json.Oid == 0 {
+	if json.Content == "" || json.Tid == "" {
 		c.JSON(http.StatusOK, gin.H{
 			"code": -1,
 			"msg":  "都是必填的！",
