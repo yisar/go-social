@@ -13,12 +13,20 @@ export function getUser(){
   return JSON.parse(user)
 }
 
+export function getUserDetail(uid){
+  return get(`https://www.cuipiya.net/user/detail/${uid}`)
+}
+
 export function publishThread(data){
   return post(`https://www.cuipiya.net/thread/add`, data)
 }
 
 export function addPost(data){
   return post(`https://www.cuipiya.net/post/add`, data)
+}
+
+export function updateUser(data){
+  return post(`https://www.cuipiya.net/register`, data)
 }
 
 export function getThreads(sort){

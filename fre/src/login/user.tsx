@@ -1,7 +1,6 @@
 import { h, useState, useEffect } from 'fre'
 import { A, push } from '../use-route'
-import { registerUser } from '../util/api'
-import { post } from '../util/post'
+import { updateUser, getUserDetail, registerUser } from '../util/api'
 import './login.css'
 
 export default function Register({ id }) {
@@ -16,6 +15,13 @@ export default function Register({ id }) {
     useEffect(() => {
         if (id) {
             console.log('编辑用户')
+            getUserDetail(id).then(res=>{
+                console.log(res.data)
+                const {name, email, level} = res.data
+                setName(name)
+                setEmail(email)
+                setLevel(level)
+            })
         }
 
     }, [])
@@ -40,6 +46,9 @@ export default function Register({ id }) {
     async function register() {
         if (id != null) {
             console.log('修改用户')
+            updateUser({
+                name, email, pwd, level
+            })
             return
         }
 

@@ -11,6 +11,7 @@ const routes = {
     '/login': import('./login/login'),
     '/register': import('./login/register'),
     '/thread/:id': import('./thread/thread'),
+    '/user/:id': import('./login/user'),
 }
 
 const App = () => {

@@ -2,12 +2,14 @@ package service
 
 import (
 	"fmt"
+	"log"
+	"net/http"
+
 	"github.com/cliclitv/htwxc/helper"
 	"github.com/cliclitv/htwxc/model"
 	"github.com/gin-gonic/gin"
+	"github.com/rogpeppe/go-internal/module"
 	"go.mongodb.org/mongo-driver/bson/primitive"
-	"log"
-	"net/http"
 )
 
 func Login(c *gin.Context) {
@@ -87,6 +89,12 @@ func Register(c *gin.Context) {
 		return
 	}
 
+	if json.Pwd == "" && json.Identity.Hex() != "000000000000000000000000" {
+		// 编辑状态
+		user, err := model.GetUserByIdentity(json.Identity)
+		json.pwd = user.Pwd
+	}
+
 	ub := &model.User{
 		Name:  json.Name,
 		Pwd:   helper.GetMd5(json.Pwd),
@@ -97,7 +105,6 @@ func Register(c *gin.Context) {
 	if json.Identity.Hex() == "000000000000000000000000" {
 		err = model.InsertUser(ub)
 	} else {
-
 		err = model.UpdateUser(ub, json.Identity)
 	}
 
