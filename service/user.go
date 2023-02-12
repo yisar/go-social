@@ -74,6 +74,12 @@ func Register(c *gin.Context) {
 			})
 			return
 		}
+
+		if user.Level < 4 {
+			// 权限太低，不能修改权限
+			json.Level = user.Level
+		}
+
 		token := c.GetHeader("token")
 		err = Auth(user.Identity.Hex(), token)
 		if err != nil {
@@ -83,8 +89,6 @@ func Register(c *gin.Context) {
 			})
 			return
 		}
-
-		fmt.Println(json)
 
 		err = model.UpdateUser(&model.User{
 			Name:  json.Name,
@@ -168,6 +172,7 @@ func UserDetail(c *gin.Context) {
 		"data": gin.H{
 			"name":  user.Name,
 			"email": user.Email,
+			"level": user.Level,
 			"_id":   user.Identity,
 		},
 	})

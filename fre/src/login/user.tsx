@@ -74,7 +74,7 @@ export default function Register({ id }) {
         <li><input type="text" placeholder="邮箱" onInput={(e) => changeEmail(e.target.value)} value={email} /></li>
         <li><input type="text" placeholder="笔名" onInput={(e) => changeName(e.target.value)} value={name} /></li>
         <li><input type="text" placeholder={id ? "留空则不改" : "密码"} onInput={(e) => changePwd(e.target.value)} /></li>
-        {id && <select value={level} onInput={e => changeLevel(e.target.value)}>
+        {id && <select value={level} onInput={e => changeLevel(parseInt(e.target.value))}>
             <option value="1">游客</option>
             <option value="2">作者</option>
             <option value="3">审核</option>
