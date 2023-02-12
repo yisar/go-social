@@ -54,7 +54,7 @@ func Login(c *gin.Context) {
 
 func Register(c *gin.Context) {
 	json := model.User{}
-	c.BindJSON(&json)
+	c.ShouldBind(&json)
 	if json.Name == "" || json.Email == "" {
 		c.JSON(http.StatusOK, gin.H{
 			"code": -1,
