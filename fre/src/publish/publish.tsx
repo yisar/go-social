@@ -78,6 +78,8 @@ export default function Upload(props) {
                 <label htmlFor="原创">原创</label></li>
             <li><input type="radio" value="同人" name="sort" id='同人' onInput={e => changeData('sort', e.target.value)} checked={data.sort === "同人"} />
                 <label htmlFor="同人">同人</label></li>
+            <li><input type="radio" value="交流" name="sort" id='交流' onInput={e => changeData('sort', e.target.value)} checked={data.sort === "交流"} />
+                <label htmlFor="交流">交流</label></li>
         </ul>
         <ul>
             <li><h2>请选择状态</h2></li>

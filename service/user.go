@@ -63,7 +63,7 @@ func Register(c *gin.Context) {
 		return
 	}
 
-	if json.Pwd == "" && json.Identity.Hex() != "000000000000000000000000" {
+	if json.Identity.Hex() != "000000000000000000000000" {
 
 		// 编辑状态
 		user, err := model.GetUserByIdentity(json.Identity)
@@ -80,6 +80,10 @@ func Register(c *gin.Context) {
 			json.Level = user.Level
 		}
 
+		if json.Pwd == "" {
+			json.Pwd = user.Pwd
+		}
+
 		token := c.GetHeader("token")
 		err = Auth(user.Identity.Hex(), token)
 		if err != nil {
@@ -92,7 +96,7 @@ func Register(c *gin.Context) {
 
 		err = model.UpdateUser(&model.User{
 			Name:  json.Name,
-			Pwd:   user.Pwd,
+			Pwd:   json.Pwd,
 			Email: json.Email,
 			Level: json.Level,
 		}, json.Identity)
