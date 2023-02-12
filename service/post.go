@@ -40,6 +40,7 @@ func InsertPost(c *gin.Context) {
 		Status:  json.Status,
 		Title:   json.Title,
 		Content: json.Content,
+		Length:  json.Length,
 		Time:    time.Now().In(time.FixedZone("CST", 8*3600)).Format("2006-01-02 15:04"),
 	}
 
