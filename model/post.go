@@ -9,23 +9,25 @@ import (
 
 type Post struct {
 	Identity primitive.ObjectID `json:"_id" bson:"_id"`
-	Oid      int                `json:"oid"`
+	Summary  string             `json:"summary"`
 	Tid      string             `json:"tid"`
 	Status   string             `json:"status"`
 	Title    string             `json:"title"`
 	Content  string             `json:"content"`
 	Time     string             `json:"time"`
 	Length   int                `json:"length"`
+	Uname    string             `json:"uname"`
 }
 
 type Post2 struct {
 	Identity primitive.ObjectID `json:"_id" bson:"_id"`
-	Oid      int                `json:"oid"`
+	Summary  string             `json:"summary"`
 	Tid      string             `json:"tid"`
 	Status   string             `json:"status"`
 	Title    string             `json:"title"`
 	Time     string             `json:"time"`
 	Length   int                `json:"length"`
+	Uname    string             `json:"uname"`
 }
 
 func (Post) CollectionName() string {
@@ -47,13 +49,13 @@ func GetPostCountByName(name string) (int64, error) {
 
 func InsertPost(post *Post) error {
 	_, err := Mongo.Collection(Post{}.CollectionName()).
-		InsertOne(context.Background(), bson.D{{"oid", post.Oid}, {"title", post.Title}, {"content", post.Content}, {"status", post.Status}, {"time", post.Time}, {"tid", post.Tid}, {"length", post.Length}})
+		InsertOne(context.Background(), bson.D{{"summary", post.Summary}, {"uname", post.Uname}, {"title", post.Title}, {"content", post.Content}, {"status", post.Status}, {"time", post.Time}, {"tid", post.Tid}, {"length", post.Length}})
 	return err
 }
 
 func UpdatePost(post *Post, id primitive.ObjectID) error {
 	_, err := Mongo.Collection(Post{}.CollectionName()).
-		UpdateOne(context.Background(), bson.M{"_id": id}, bson.D{{"oid", post.Oid}, {"title", post.Title}, {"content", post.Content}, {"status", post.Status}, {"time", post.Time}, {"tid", post.Tid}, {"length", post.Length}})
+		UpdateOne(context.Background(), bson.M{"_id": id}, bson.D{{"summary", post.Summary}, {"uname", post.Uname}, {"title", post.Title}, {"content", post.Content}, {"status", post.Status}, {"time", post.Time}, {"tid", post.Tid}, {"length", post.Length}})
 	return err
 }
 
@@ -65,7 +67,7 @@ func GetPosts(limit, skip *int64, tid string) ([]*Post2, error) {
 				Limit: limit,
 				Skip:  skip,
 				Sort: bson.D{{
-					"oid", 1,
+					"time", 1,
 				}},
 			})
 	if err != nil {

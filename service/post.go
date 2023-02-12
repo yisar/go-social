@@ -35,7 +35,8 @@ func InsertPost(c *gin.Context) {
 	}
 
 	post := &model.Post{
-		Oid:     json.Oid,
+		Uname:   json.Uname,
+		Summary: json.Summary,
 		Tid:     json.Tid,
 		Status:  json.Status,
 		Title:   json.Title,

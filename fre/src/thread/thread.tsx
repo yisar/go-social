@@ -1,6 +1,6 @@
 import { h, useEffect, useState } from 'fre'
 import { A, push } from '../use-route'
-import { addPost, getPostDetail, getPosts, getThread, getUser } from '../util/api'
+import { addPost, getPostDetail, getPosts, getThread, getUser, getUserDetail } from '../util/api'
 import './thread.css'
 
 export default function Thread(props) {
@@ -16,7 +16,22 @@ export default function Thread(props) {
         getThread(id).then(res => {
             setThread(res.data)
             getPosts(res.data._id).then(res2 => {
-                setList(res2.data)
+                const arr = res2.data.map(async item => {
+                    const user = await getUserDetail(item.uid)
+                    item.user = user
+                    if (item.title === "") {
+                        const c = await getPostDetail(item._id).then(res => res.data.content)
+                        item.content = c
+                        return item
+                    } else {
+                        return item
+                    }
+                })
+
+                Promise.all(arr).then(res => {
+                    console.log(res)
+                    setList(res2.data)
+                })
             })
         })
     }, [])
@@ -35,7 +50,8 @@ export default function Thread(props) {
             ...data,
             status: '发布',
             tid: thread._id,
-            length: data.content.length
+            length: data.content.length,
+            uname: getUser().name
         }).then(res => {
             alert(res.msg)
         })
@@ -74,20 +90,21 @@ export default function Thread(props) {
             {list.map((item, index) => {
 
                 return <div class='post'>
-                    <div onClick={() => {
-                        open(item._id, index)
-                    }}>
-                        <h2>{item.title}</h2>
+                    <div >
+                        <h2 onClick={() => {
+                            open(item._id, index)
+                        }}>{item.title}</h2>
                         {current === index && <pre>{content}</pre>}
+                        {item.title === "" && <pre>{item.content}</pre>}
                     </div>
                 </div>
             })}
         </div>
 
         <div class='reply'>
-            {isUser && <input type="text" placeholder='请输入章节序号' onInput={e => changeData('oid', parseInt(e.target.value))} />}
             {isUser && <input type="text" placeholder='请输入标题' onInput={e => changeData('title', e.target.value)} />}
-            <textarea name="" id="" rows="10" onInput={e => changeData('content', e.target.value.replace(/\s+/g, '\n'))}></textarea>
+            {isUser && <input type="text" placeholder='请输入概述' onInput={e => changeData('summary', e.target.value)} />}
+            <textarea name="" id="" rows="10" onInput={e => changeData('content', isUser ? e.target.value.replace(/\s+/g, '\n') : e.target.value)}></textarea>
             <button onClick={publish}>发布</button>
         </div>
     </div>
