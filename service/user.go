@@ -55,40 +55,16 @@ func Login(c *gin.Context) {
 func Register(c *gin.Context) {
 	json := model.User{}
 	c.BindJSON(&json)
-	if json.Name == "" || json.Pwd == "" || json.Email == "" {
+	if json.Name == "" || json.Email == "" {
 		c.JSON(http.StatusOK, gin.H{
 			"code": -1,
 			"msg":  "都是必填的！",
 		})
 		return
 	}
-	cnt, err := model.GetUserCountByEmail(json.Email)
-	if err != nil {
-		log.Printf("[DB ERROR]:%v\n", err)
-		return
-	}
-	if cnt > 0 {
-		c.JSON(http.StatusOK, gin.H{
-			"code": -1,
-			"msg":  "当前邮箱已被注册",
-		})
-		return
-	}
-
-	cnt2, err := model.GetUserCountByName(json.Name)
-	if err != nil {
-		log.Printf("[DB ERROR]:%v\n", err)
-		return
-	}
-	if cnt2 > 0 {
-		c.JSON(http.StatusOK, gin.H{
-			"code": -1,
-			"msg":  "当前笔名已被注册",
-		})
-		return
-	}
 
 	if json.Pwd == "" && json.Identity.Hex() != "000000000000000000000000" {
+
 		// 编辑状态
 		user, err := model.GetUserByIdentity(json.Identity)
 		if err != nil {
@@ -98,33 +74,77 @@ func Register(c *gin.Context) {
 			})
 			return
 		}
+		token := c.GetHeader("token")
+		err = Auth(user.Identity.Hex(), token)
+		if err != nil {
+			c.JSON(http.StatusOK, gin.H{
+				"code": -1,
+				"msg":  fmt.Sprintf("%s", err),
+			})
+			return
+		}
 		json.Pwd = user.Pwd
-	}
 
-	ub := &model.User{
-		Name:  json.Name,
-		Pwd:   helper.GetMd5(json.Pwd),
-		Email: json.Email,
-		Level: 0,
-	}
+		err = model.UpdateUser(&model.User{
+			Name:  json.Name,
+			Pwd:   helper.GetMd5(json.Pwd),
+			Email: json.Email,
+			Level: 0,
+		}, json.Identity)
+		if err != nil {
+			c.JSON(http.StatusOK, gin.H{
+				"code": -1,
+				"msg":  fmt.Sprintf("%s", err),
+			})
+			return
+		}
 
-	if json.Identity.Hex() == "000000000000000000000000" {
-		err = model.InsertUser(ub)
 	} else {
-		err = model.UpdateUser(ub, json.Identity)
-	}
+		//注册状态
+		cnt, err := model.GetUserCountByEmail(json.Email)
+		if err != nil {
+			log.Printf("[DB ERROR]:%v\n", err)
+			return
+		}
+		if cnt > 0 {
+			c.JSON(http.StatusOK, gin.H{
+				"code": -1,
+				"msg":  "当前邮箱已被注册",
+			})
+			return
+		}
 
-	if err != nil {
-		c.JSON(http.StatusOK, gin.H{
-			"code": -1,
-			"msg":  fmt.Sprintf("%s", err),
+		cnt2, err := model.GetUserCountByName(json.Name)
+		if err != nil {
+			log.Printf("[DB ERROR]:%v\n", err)
+			return
+		}
+		if cnt2 > 0 {
+			c.JSON(http.StatusOK, gin.H{
+				"code": -1,
+				"msg":  "当前笔名已被注册",
+			})
+			return
+		}
+
+		err = model.InsertUser(&model.User{
+			Name:  json.Name,
+			Pwd:   helper.GetMd5(json.Pwd),
+			Email: json.Email,
+			Level: 0,
 		})
-		return
+		if err != nil {
+			c.JSON(http.StatusOK, gin.H{
+				"code": -1,
+				"msg":  fmt.Sprintf("%s", err),
+			})
+			return
+		}
 	}
 
 	c.JSON(http.StatusOK, gin.H{
 		"code": 200,
-		"msg":  "注册成功",
+		"msg":  "成功",
 	})
 }
 

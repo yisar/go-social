@@ -15,9 +15,9 @@ export default function Register({ id }) {
     useEffect(() => {
         if (id) {
             console.log('编辑用户')
-            getUserDetail(id).then(res=>{
+            getUserDetail(id).then(res => {
                 console.log(res.data)
-                const {name, email, level} = res.data
+                const { name, email, level } = res.data
                 setName(name)
                 setEmail(email)
                 setLevel(level)
@@ -47,7 +47,7 @@ export default function Register({ id }) {
         if (id != null) {
             console.log('修改用户')
             updateUser({
-                name, email, pwd, level
+                name, email, pwd, level, _id: id
             })
             return
         }

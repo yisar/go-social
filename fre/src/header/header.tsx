@@ -14,7 +14,7 @@ export default function Header() {
                 <li>Forum</li>
                 <li onClick={()=>push('/publish/0')}>Publish</li>
             </nav>
-            <div className="avatar"><img src={getAvatar(user.email)} alt="" /></div>
+            <div className="avatar" onClick={()=>push(`/user/${getUser()._id}`)}><img src={getAvatar(user.email)} alt="" /></div>
         </div>
     </header>
 }

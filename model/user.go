@@ -54,6 +54,6 @@ func InsertUser(user *User) error {
 }
 func UpdateUser(user *User, id primitive.ObjectID) error {
 	_, err := Mongo.Collection(User{}.CollectionName()).
-		UpdateOne(context.Background(), bson.M{"_id": id}, bson.D{{"name", user.Name}, {"pwd", user.Pwd}, {"email", user.Email}, {"level", 0}})
+		UpdateOne(context.Background(), bson.M{"_id": id}, bson.D{{"$set", bson.D{{"name", user.Name}, {"pwd", user.Pwd}, {"email", user.Email}, {"level", 0}}}})
 	return err
 }
