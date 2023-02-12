@@ -83,14 +83,16 @@ func Register(c *gin.Context) {
 			})
 			return
 		}
-		json.Pwd = user.Pwd
+
+		fmt.Println(json)
 
 		err = model.UpdateUser(&model.User{
 			Name:  json.Name,
-			Pwd:   helper.GetMd5(json.Pwd),
+			Pwd:   user.Pwd,
 			Email: json.Email,
-			Level: 0,
+			Level: json.Level,
 		}, json.Identity)
+
 		if err != nil {
 			c.JSON(http.StatusOK, gin.H{
 				"code": -1,
