@@ -49,7 +49,7 @@ func GetUserCountByName(name string) (int64, error) {
 
 func InsertUser(user *User) error {
 	_, err := Mongo.Collection(User{}.CollectionName()).
-		InsertOne(context.Background(), bson.D{{"name", user.Name}, {"pwd", user.Pwd}, {"email", user.Email}, {"level", 0}})
+		InsertOne(context.Background(), bson.D{{"name", user.Name}, {"pwd", user.Pwd}, {"email", user.Email}, {"level", 1}})
 	return err
 }
 func UpdateUser(user *User, id primitive.ObjectID) error {
