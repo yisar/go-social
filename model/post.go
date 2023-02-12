@@ -15,6 +15,7 @@ type Post struct {
 	Title    string             `json:"title"`
 	Content  string             `json:"content"`
 	Time     string             `json:"time"`
+	Length   int                `json:"length"`
 }
 
 type Post2 struct {
@@ -24,6 +25,7 @@ type Post2 struct {
 	Status   string             `json:"status"`
 	Title    string             `json:"title"`
 	Time     string             `json:"time"`
+	Length   int                `json:"length"`
 }
 
 func (Post) CollectionName() string {
@@ -45,13 +47,13 @@ func GetPostCountByName(name string) (int64, error) {
 
 func InsertPost(post *Post) error {
 	_, err := Mongo.Collection(Post{}.CollectionName()).
-		InsertOne(context.Background(), bson.D{{"oid", post.Oid}, {"title", post.Title}, {"content", post.Content}, {"status", post.Status}, {"time", post.Time}, {"tid", post.Tid}})
+		InsertOne(context.Background(), bson.D{{"oid", post.Oid}, {"title", post.Title}, {"content", post.Content}, {"status", post.Status}, {"time", post.Time}, {"tid", post.Tid}, {"length", post.Length}})
 	return err
 }
 
 func UpdatePost(post *Post, id primitive.ObjectID) error {
 	_, err := Mongo.Collection(Post{}.CollectionName()).
-		UpdateOne(context.Background(), bson.M{"_id": id}, bson.D{{"oid", post.Oid}, {"title", post.Title}, {"content", post.Content}, {"status", post.Status}, {"time", post.Time}, {"tid", post.Tid}})
+		UpdateOne(context.Background(), bson.M{"_id": id}, bson.D{{"oid", post.Oid}, {"title", post.Title}, {"content", post.Content}, {"status", post.Status}, {"time", post.Time}, {"tid", post.Tid}, {"length", post.Length}})
 	return err
 }
 

@@ -34,13 +34,14 @@ export default function Thread(props) {
         addPost({
             ...data,
             status: '发布',
-            tid: thread._id
+            tid: thread._id,
+            length: data.content.length
         }).then(res => {
             alert(res.msg)
         })
     }
 
-    function open(id,index) {
+    function open(id, index) {
         getPostDetail(id).then(res => {
             setConent("    " + res.data.content.replace(/\n/g, '\n    '))
             setCurrent(index)
