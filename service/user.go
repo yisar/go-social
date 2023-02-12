@@ -8,7 +8,6 @@ import (
 	"github.com/cliclitv/htwxc/helper"
 	"github.com/cliclitv/htwxc/model"
 	"github.com/gin-gonic/gin"
-	"github.com/rogpeppe/go-internal/module"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
@@ -92,7 +91,14 @@ func Register(c *gin.Context) {
 	if json.Pwd == "" && json.Identity.Hex() != "000000000000000000000000" {
 		// 编辑状态
 		user, err := model.GetUserByIdentity(json.Identity)
-		json.pwd = user.Pwd
+		if err != nil {
+			c.JSON(http.StatusOK, gin.H{
+				"code": -1,
+				"msg":  fmt.Sprintf("%s", err),
+			})
+			return
+		}
+		json.Pwd = user.Pwd
 	}
 
 	ub := &model.User{
