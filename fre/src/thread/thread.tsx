@@ -104,7 +104,7 @@ export default function Thread(props) {
         <div class='reply'>
             {isUser && <input type="text" placeholder='请输入标题' onInput={e => changeData('title', e.target.value)} />}
             {isUser && <input type="text" placeholder='请输入概述' onInput={e => changeData('summary', e.target.value)} />}
-            <textarea name="" id="" rows="10" onInput={e => changeData('content', isUser ? e.target.value.replace(/\s+/g, '\n') : e.target.value)}></textarea>
+            <textarea name="" id="" rows="10" onInput={e => changeData('content', data.title !== "" ? e.target.value.replace(/\s+/g, '\n') : e.target.value)}></textarea>
             <button onClick={publish}>发布</button>
         </div>
     </div>
