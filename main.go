@@ -2,7 +2,7 @@ package main
 
 import (
 	"github.com/gin-gonic/gin"
-	"github.com/cliclitv/htwxc/service"
+	"github.com/yisar/footsie/service"
 	"net/http"
 	"embed"
 	"io/fs"
@@ -16,8 +16,6 @@ var embededFiles embed.FS
 var html string
 
 var whiteOrigins = [5]string{
-	"https://www.cuipiya.net",
-	"https://cuipiya.net",
 	"http://localhost:3000",
 }
 
@@ -56,14 +54,7 @@ func Router() *gin.Engine {
 	r.POST("/login", service.Login)
 	r.POST("/register", service.Register)
 	r.POST("/sendcode", service.SendCode)
-	r.POST("/thread/add", service.InsertThread)
-	r.POST("/post/add", service.InsertPost)
-	
-	r.GET("/thread/detail/:id", service.ThreadDetail)
 	r.GET("/user/detail/:id", service.UserDetail)
-	r.GET("/post/detail/:id", service.PostDetail)
-	r.GET("/threads", service.GetThreads)
-	r.GET("/posts", service.GetPosts)
 
 	return r
 }

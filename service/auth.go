@@ -4,8 +4,8 @@ import (
 	"errors"
 	"fmt"
 
-	"github.com/cliclitv/htwxc/helper"
-	"github.com/cliclitv/htwxc/model"
+	"github.com/yisar/footsie/helper"
+	"github.com/yisar/footsie/model"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
