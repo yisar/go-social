@@ -4,19 +4,22 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/yisar/footsie/svc"
 	"net/http"
-	"embed"
-	"io/fs"
+	// "embed"
+	// "io/fs"
 )
 
 
-//go:embed fre/dist
-var embededFiles embed.FS
+// //go:embed fre/dist
+// var embededFiles embed.FS
 
-//go:embed fre/dist/index.html
-var html string
+// //go:embed fre/dist/index.html
+// var html string
 
 var whiteOrigins = [5]string{
 	"http://localhost:3000",
+	"https://www.cuipiya.net",
+	"wss://www.cuipiya.net",
+
 }
 
 var whiteOriginsSet = make(map[string]bool)
@@ -42,14 +45,14 @@ func Router() *gin.Engine {
 
 	r.Use(initMiddleware)
 
-	fsys, _ := fs.Sub(embededFiles, "fre/dist")
+	// fsys, _ := fs.Sub(embededFiles, "fre/dist")
 
 	r.StaticFS("/assets", http.FS(fsys))
 
-	r.NoRoute(func(c *gin.Context) {
-        c.Header("Content-Type", "text/html; charset=utf-8")
-    	c.String(200, html)
-    })
+	// r.NoRoute(func(c *gin.Context) {
+    //     c.Header("Content-Type", "text/html; charset=utf-8")
+    // 	c.String(200, html)
+    // })
 
 	r.POST("/user/login", service.Login)
 	r.POST("/user/register", service.Register)
