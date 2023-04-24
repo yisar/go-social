@@ -56,9 +56,21 @@ func Router() *gin.Engine {
 	r.POST("/user/sendcode", service.SendCode)
 	r.GET("/user/detail/:id", service.UserDetail)
 	r.GET("/users", service.GetUsers)
+	r.GET("/echo", func(ctx *gin.Context) {
+		service.Echo(ctx.Writer, ctx.Request)
+	})
 
 	return r
 }
+
+// func Socket()*gin.Engine{
+// 	r := gin.Default()
+// 	// 路由
+// 	r.GET("/echo", func(ctx *gin.Context) {
+// 		service.Echo(ctx.Writer, ctx.Request)
+// 	})
+// 	return r
+// }
 
 
 func main() {
@@ -66,5 +78,7 @@ func main() {
 		whiteOriginsSet[s] = true
 	}
 	e := Router()
+	// w := Socket()
 	e.Run(":5000")
+	// w.Run(":6000")
 }
