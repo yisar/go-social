@@ -51,9 +51,9 @@ func Router() *gin.Engine {
     	c.String(200, html)
     })
 
-	r.POST("/login", service.Login)
-	r.POST("/register", service.Register)
-	r.POST("/sendcode", service.SendCode)
+	r.POST("/user/login", service.Login)
+	r.POST("/user/register", service.Register)
+	r.POST("/user/sendcode", service.SendCode)
 	r.GET("/user/detail/:id", service.UserDetail)
 
 	return r

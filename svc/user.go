@@ -145,7 +145,7 @@ func Register(c *gin.Context) {
 		if cnt2 > 0 {
 			c.JSON(http.StatusOK, gin.H{
 				"code": -1,
-				"msg":  "当前笔名已被注册",
+				"msg":  "当前昵称已被注册",
 			})
 			return
 		}
@@ -154,7 +154,13 @@ func Register(c *gin.Context) {
 			Name:  json.Name,
 			Pwd:   helper.GetMd5(json.Pwd),
 			Email: json.Email,
-			Level: 0,
+			Sex: json.Sex,
+			Age:json.Age,
+			Height:json.Height,
+			Weight:json.Weight,
+			Sign:json.Sign,
+			Location:json.Location,
+			Level: 1,
 		})
 		if err != nil {
 			c.JSON(http.StatusOK, gin.H{
