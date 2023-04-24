@@ -47,7 +47,7 @@ func Router() *gin.Engine {
 
 	// fsys, _ := fs.Sub(embededFiles, "fre/dist")
 
-	r.StaticFS("/assets", http.FS(fsys))
+	// r.StaticFS("/assets", http.FS(fsys))
 
 	// r.NoRoute(func(c *gin.Context) {
     //     c.Header("Content-Type", "text/html; charset=utf-8")
