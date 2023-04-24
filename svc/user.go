@@ -5,8 +5,8 @@ import (
 	"log"
 	"net/http"
 
-	"github.com/cliclitv/htwxc/helper"
-	"github.com/cliclitv/htwxc/model"
+	"github.com/yisar/footsie/helper"
+	"github.com/yisar/footsie/db"
 	"github.com/gin-gonic/gin"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 )
@@ -44,9 +44,16 @@ func Login(c *gin.Context) {
 		"data": gin.H{
 			"token": token,
 			"user": gin.H{
+				"_id":   user.Identity,
 				"name":  user.Name,
 				"email": user.Email,
-				"_id":   user.Identity,
+				"age": user.Age,
+				"sex":user.Sex,
+				"height":user.Height,
+				"weight":user.Weight,
+				"bio":user.Bio,
+				"location":user.Location,
+				"level":user.Level,
 			},
 		},
 	})
@@ -113,7 +120,10 @@ func Register(c *gin.Context) {
 		//注册状态
 		cnt, err := model.GetUserCountByEmail(json.Email)
 		if err != nil {
-			log.Printf("[DB ERROR]:%v\n", err)
+			c.JSON(http.StatusOK, gin.H{
+				"code": -1,
+				"msg":  fmt.Sprintf("%s", err),
+			})
 			return
 		}
 		if cnt > 0 {
@@ -126,13 +136,16 @@ func Register(c *gin.Context) {
 
 		cnt2, err := model.GetUserCountByName(json.Name)
 		if err != nil {
-			log.Printf("[DB ERROR]:%v\n", err)
+			c.JSON(http.StatusOK, gin.H{
+				"code": -1,
+				"msg":  fmt.Sprintf("%s", err),
+			})
 			return
 		}
 		if cnt2 > 0 {
 			c.JSON(http.StatusOK, gin.H{
 				"code": -1,
-				"msg":  "当前笔名已被注册",
+				"msg":  "当前昵称已被注册",
 			})
 			return
 		}
@@ -141,7 +154,13 @@ func Register(c *gin.Context) {
 			Name:  json.Name,
 			Pwd:   helper.GetMd5(json.Pwd),
 			Email: json.Email,
-			Level: 0,
+			Sex: json.Sex,
+			Age:json.Age,
+			Height:json.Height,
+			Weight:json.Weight,
+			Bio:json.Bio,
+			Location:json.Location,
+			Level: 1,
 		})
 		if err != nil {
 			c.JSON(http.StatusOK, gin.H{
@@ -174,11 +193,43 @@ func UserDetail(c *gin.Context) {
 		"code": 200,
 		"msg":  "数据加载成功",
 		"data": gin.H{
+			"_id":   user.Identity,
 			"name":  user.Name,
 			"email": user.Email,
-			"level": user.Level,
-			"_id":   user.Identity,
+			"age": user.Age,
+			"sex":user.Sex,
+			"height":user.Height,
+			"weight":user.Weight,
+			"bio":user.Bio,
+			"location":user.Location,
+			"level":user.Level,
 		},
+	})
+}
+
+func GetUsers(c *gin.Context) {
+	uid := c.Query("uid")
+	// oid, _ := primitive.ObjectIDFromHex(id)
+
+	// pageIndex, _ := strconv.ParseInt(c.Query("page"), 10, 32)
+	// pageSize, _ := strconv.ParseInt(c.Query("pageSize"), 10, 32)
+	// skip := (pageIndex - 1) * pageSize
+	oid, _ := primitive.ObjectIDFromHex(uid)
+	user, err := model.GetUserByIdentity(oid)
+	users, err := model.GetUsers(user.Location)
+
+	if err != nil {
+		c.JSON(http.StatusOK, gin.H{
+			"code": -1,
+			"msg":  fmt.Sprintf("%s", err),
+		})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{
+		"code": 200,
+		"msg":  "数据加载成功",
+		"data": users,
 	})
 }
 
@@ -193,7 +244,10 @@ func SendCode(c *gin.Context) {
 	}
 	cnt, err := model.GetUserCountByEmail(email)
 	if err != nil {
-		log.Printf("[DB ERROR]:%v\n", err)
+		c.JSON(http.StatusOK, gin.H{
+			"code": -1,
+			"msg":  fmt.Sprintf("%s", err),
+		})
 		return
 	}
 	if cnt > 0 {

@@ -2,7 +2,7 @@ package main
 
 import (
 	"github.com/gin-gonic/gin"
-	"github.com/cliclitv/htwxc/service"
+	"github.com/yisar/footsie/svc"
 	"net/http"
 	"embed"
 	"io/fs"
@@ -16,8 +16,6 @@ var embededFiles embed.FS
 var html string
 
 var whiteOrigins = [5]string{
-	"https://www.cuipiya.net",
-	"https://cuipiya.net",
 	"http://localhost:3000",
 }
 
@@ -53,20 +51,26 @@ func Router() *gin.Engine {
     	c.String(200, html)
     })
 
-	r.POST("/login", service.Login)
-	r.POST("/register", service.Register)
-	r.POST("/sendcode", service.SendCode)
-	r.POST("/thread/add", service.InsertThread)
-	r.POST("/post/add", service.InsertPost)
-	
-	r.GET("/thread/detail/:id", service.ThreadDetail)
+	r.POST("/user/login", service.Login)
+	r.POST("/user/register", service.Register)
+	r.POST("/user/sendcode", service.SendCode)
 	r.GET("/user/detail/:id", service.UserDetail)
-	r.GET("/post/detail/:id", service.PostDetail)
-	r.GET("/threads", service.GetThreads)
-	r.GET("/posts", service.GetPosts)
+	r.GET("/users", service.GetUsers)
+	r.GET("/echo", func(ctx *gin.Context) {
+		service.Echo(ctx.Writer, ctx.Request)
+	})
 
 	return r
 }
+
+// func Socket()*gin.Engine{
+// 	r := gin.Default()
+// 	// 路由
+// 	r.GET("/echo", func(ctx *gin.Context) {
+// 		service.Echo(ctx.Writer, ctx.Request)
+// 	})
+// 	return r
+// }
 
 
 func main() {
@@ -74,5 +78,7 @@ func main() {
 		whiteOriginsSet[s] = true
 	}
 	e := Router()
+	// w := Socket()
 	e.Run(":5000")
+	// w.Run(":6000")
 }
