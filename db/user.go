@@ -3,7 +3,7 @@ package model
 import (
 	"context"
 	"fmt"
-
+	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 )
@@ -80,4 +80,32 @@ func UpdateUser(user *User, id primitive.ObjectID) error {
 			{"level", user.Level},
 		})
 	return err
+}
+
+func GetUsers(location []float64) ([]*User, error) {
+	data := make([]*User, 0)
+	stages := mongo.Pipeline{}
+	getNearbyStage := bson.D{{"$geoNear", bson.M{
+        "near": bson.M{
+            "type":        "Point",
+            "coordinates": location,
+        },
+        "maxDistance":   2000/6378137,
+        "spherical":     true,
+        "distanceField": "distance",
+    }}}
+	stages = append(stages, getNearbyStage)
+	cursor, err := Mongo.Collection("user").Aggregate(context.Background(),stages)
+	if err != nil {
+		return nil, err
+	}
+	for cursor.Next(context.Background()) {
+		mb := new(User)
+		err = cursor.Decode(mb)
+		if err != nil {
+			return nil, err
+		}
+		data = append(data, mb)
+	}
+	return data, nil
 }

@@ -207,6 +207,32 @@ func UserDetail(c *gin.Context) {
 	})
 }
 
+func GetUsers(c *gin.Context) {
+	uid := c.Query("uid")
+	// oid, _ := primitive.ObjectIDFromHex(id)
+
+	// pageIndex, _ := strconv.ParseInt(c.Query("page"), 10, 32)
+	// pageSize, _ := strconv.ParseInt(c.Query("pageSize"), 10, 32)
+	// skip := (pageIndex - 1) * pageSize
+	oid, _ := primitive.ObjectIDFromHex(uid)
+	user, err := model.GetUserByIdentity(oid)
+	users, err := model.GetUsers(user.Location)
+
+	if err != nil {
+		c.JSON(http.StatusOK, gin.H{
+			"code": -1,
+			"msg":  fmt.Sprintf("%s", err),
+		})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{
+		"code": 200,
+		"msg":  "数据加载成功",
+		"data": users,
+	})
+}
+
 func SendCode(c *gin.Context) {
 	email := c.PostForm("email")
 	if email == "" {
