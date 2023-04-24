@@ -18,7 +18,7 @@ type User struct {
 	Height   int                `json:"height"`
 	Weight   int                `json:"weight"`
 	Sign     string             `json:"sign"`
-	Location []int              `json:"location"`
+	Location []float64              `json:"location"`
 	Level    int                `json:"level"`
 }
 
