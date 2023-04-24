@@ -17,8 +17,8 @@ type User struct {
 	Sex      int                `json:"sex"`
 	Height   int                `json:"height"`
 	Weight   int                `json:"weight"`
-	Sign     string             `json:"sign"`
-	Location []float64              `json:"location"`
+	Bio      string             `json:"bio"`
+	Location []float64          `json:"location"`
 	Level    int                `json:"level"`
 }
 
@@ -59,7 +59,7 @@ func InsertUser(user *User) error {
 			{"sex", user.Sex},
 			{"height", user.Height},
 			{"weight", user.Weight},
-			{"sign", user.Sign},
+			{"bio", user.Bio},
 			{"location", user.Location},
 			{"level", 1},
 		})
@@ -75,7 +75,7 @@ func UpdateUser(user *User, id primitive.ObjectID) error {
 			{"sex", user.Sex},
 			{"height", user.Height},
 			{"weight", user.Weight},
-			{"sign", user.Sign},
+			{"bio", user.Bio},
 			{"location", user.Location},
 			{"level", user.Level},
 		})
