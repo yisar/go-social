@@ -6,7 +6,7 @@ import (
 	"net/http"
 
 	"github.com/yisar/footsie/helper"
-	"github.com/yisar/footsie/model"
+	"github.com/yisar/footsie/db"
 	"github.com/gin-gonic/gin"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 )

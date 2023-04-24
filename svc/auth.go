@@ -5,7 +5,7 @@ import (
 	"fmt"
 
 	"github.com/yisar/footsie/helper"
-	"github.com/yisar/footsie/model"
+	"github.com/yisar/footsie/db"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
