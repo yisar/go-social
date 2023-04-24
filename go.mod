@@ -1,4 +1,4 @@
-module github.com/cliclitv/htwxc
+module github.com/yisar/footsie
 
 go 1.19
 
