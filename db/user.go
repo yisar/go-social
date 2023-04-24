@@ -3,9 +3,10 @@ package model
 import (
 	"context"
 	"fmt"
-	"go.mongodb.org/mongo-driver/mongo"
+
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
+	"go.mongodb.org/mongo-driver/mongo"
 )
 
 type User struct {
@@ -20,6 +21,7 @@ type User struct {
 	Bio      string             `json:"bio"`
 	Location []float64          `json:"location"`
 	Level    int                `json:"level"`
+	Distance float64 `json:"distance"`
 }
 
 func GetUserByAccountPassword(name, pwd string) (*User, error) {
@@ -86,16 +88,14 @@ func GetUsers(location []float64) ([]*User, error) {
 	data := make([]*User, 0)
 	stages := mongo.Pipeline{}
 	getNearbyStage := bson.D{{"$geoNear", bson.M{
-        "near": bson.M{
-            "type":        "Point",
-            "coordinates": location,
-        },
-        "maxDistance":   2000/6378137,
-        "spherical":     true,
-        "distanceField": "distance",
-    }}}
+		"near":               location,
+		"distanceMultiplier": 6378137,
+		"maxDistance":        1,
+		"spherical":          true,
+		"distanceField":      "distance",
+	}}}
 	stages = append(stages, getNearbyStage)
-	cursor, err := Mongo.Collection("user").Aggregate(context.Background(),stages)
+	cursor, err := Mongo.Collection("user").Aggregate(context.Background(), stages)
 	if err != nil {
 		return nil, err
 	}
