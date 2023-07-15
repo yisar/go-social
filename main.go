@@ -26,9 +26,9 @@ var whiteOriginsSet = make(map[string]bool)
 
 func initMiddleware(c *gin.Context) {
 	origin := c.GetHeader("Origin")
-	if whiteOriginsSet[origin] {
+	// if whiteOriginsSet[origin] {
 		c.Header("Access-Control-Allow-Origin", origin)
-	}
+	// }
 
 	c.Header("Access-Control-Allow-Credentials", "true")
 	c.Header("Access-Control-Allow-Methods", "*")
