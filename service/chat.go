@@ -1,21 +1,21 @@
 package service
 
 import (
-	"net/http"
-	"github.com/fatih/set"
-	"github.com/gorilla/websocket"
-	"github.com/gin-gonic/gin"
 	"encoding/json"
 	"fmt"
 	"log"
+	"net/http"
 	"strconv"
 	"sync"
-	
+
+	"github.com/fatih/set"
+	"github.com/gin-gonic/gin"
+	"github.com/gorilla/websocket"
 )
 
 const (
-	CMD_SINGLE_MSG = 10
-	CMD_ROOM_MSG   = 11
+	CMD_SINGLE_MSG = 1
+	CMD_ROOM_MSG   = 2
 	CMD_HEART      = 0
 )
 
@@ -46,12 +46,10 @@ var rwlocker sync.RWMutex
 // ws://127.0.0.1/chat?id=1&token=xxxx
 func Chat(c *gin.Context) {
 
-	id := c.Query("id")
+	uid := c.Query("uid")
 	token := c.Query("token")
-	userId, _ := strconv.ParseInt(id, 10, 64)
+	userId, _ := strconv.ParseInt(uid, 10, 64)
 	isvalida := checkToken(userId, token)
-	//如果isvalida=true
-	//isvalida=false
 
 	conn, err := (&websocket.Upgrader{
 		CheckOrigin: func(r *http.Request) bool {
@@ -62,7 +60,6 @@ func Chat(c *gin.Context) {
 		log.Println(err.Error())
 		return
 	}
-	//todo 获得conn
 	node := &Node{
 		Conn:      conn,
 		DataQueue: make(chan []byte, 50),
@@ -82,7 +79,7 @@ func Chat(c *gin.Context) {
 	//todo 完成接收逻辑
 	go recvproc(node)
 	//
-	sendMsg(userId, []byte("hello,world!"))
+	sendMsg(userId, []byte("ok"))
 }
 
 //发送协程
@@ -128,19 +125,16 @@ func recvproc(node *Node) {
 
 //后端调度逻辑处理
 func dispatch(data []byte) {
-	//todo 解析data为message
 	msg := Message{}
 	err := json.Unmarshal(data, &msg)
 	if err != nil {
 		log.Println(err.Error())
 		return
 	}
-	//todo 根据cmd对逻辑进行处理
 	switch msg.Cmd {
 	case CMD_SINGLE_MSG:
 		sendMsg(msg.Tid, data)
 	case CMD_ROOM_MSG:
-		//todo 群聊转发逻辑
 		for _, v := range clientMap {
 			if v.GroupSets.Has(msg.Tid) {
 				v.DataQueue <- data
@@ -151,7 +145,6 @@ func dispatch(data []byte) {
 	}
 }
 
-//todo 发送消息
 func sendMsg(userId int64, msg []byte) {
 	rwlocker.RLock()
 	node, ok := clientMap[userId]
