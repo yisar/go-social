@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"log"
 	"net/http"
-
 	"github.com/yisar/footsie/helper"
 	"github.com/yisar/footsie/db"
 	"github.com/gin-gonic/gin"

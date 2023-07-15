@@ -4,11 +4,13 @@ import (
 	"net/http"
 	"github.com/fatih/set"
 	"github.com/gorilla/websocket"
+	"github.com/gin-gonic/gin"
 	"encoding/json"
 	"fmt"
 	"log"
 	"strconv"
 	"sync"
+	
 )
 
 const (
@@ -42,14 +44,10 @@ var rwlocker sync.RWMutex
 
 //
 // ws://127.0.0.1/chat?id=1&token=xxxx
-func Chat(writer http.ResponseWriter,
-	request *http.Request) {
+func Chat(c *gin.Context) {
 
-	//todo 检验接入是否合法
-	//checkToken(userId int64,token string)
-	query := request.URL.Query()
-	id := query.Get("id")
-	token := query.Get("token")
+	id := c.Query("id")
+	token := c.Query("token")
 	userId, _ := strconv.ParseInt(id, 10, 64)
 	isvalida := checkToken(userId, token)
 	//如果isvalida=true
@@ -59,7 +57,7 @@ func Chat(writer http.ResponseWriter,
 		CheckOrigin: func(r *http.Request) bool {
 			return isvalida
 		},
-	}).Upgrade(writer, request, nil)
+	}).Upgrade(c.Writer, c.Request, nil)
 	if err != nil {
 		log.Println(err.Error())
 		return

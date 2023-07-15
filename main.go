@@ -2,7 +2,7 @@ package main
 
 import (
 	"github.com/gin-gonic/gin"
-	"github.com/yisar/footsie/svc"
+	"github.com/yisar/footsie/service"
 	"net/http"
 	// "embed"
 	// "io/fs"
@@ -59,9 +59,7 @@ func Router() *gin.Engine {
 	r.POST("/user/sendcode", service.SendCode)
 	r.GET("/user/detail/:id", service.UserDetail)
 	r.GET("/users", service.GetUsers)
-	r.GET("/echo", func(ctx *gin.Context) {
-		service.Echo(ctx.Writer, ctx.Request)
-	})
+	r.GET("/chat", service.Chat)
 
 	return r
 }
