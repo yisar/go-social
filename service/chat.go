@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"log"
 	"net/http"
-	"strconv"
 	"sync"
 
 	"github.com/fatih/set"
@@ -21,9 +20,9 @@ const (
 
 type Message struct {
 	Id      int64  `json:"id,omitempty" form:"id"`           //消息ID
-	Uid     int64  `json:"uid,omitempty" form:"uid"`         //谁发的
+	Uid     string  `json:"uid,omitempty" form:"uid"`         //谁发的
 	Cmd     int    `json:"cmd,omitempty" form:"cmd"`         //群聊还是私聊
-	Tid     int64  `json:"tid,omitempty" form:"dstid"`       //对端用户ID/群ID
+	Tid     string  `json:"tid,omitempty" form:"tid"`       //对端用户ID/群ID
 	Media   int    `json:"media,omitempty" form:"media"`     //消息按照什么样式展示
 	Content string `json:"content,omitempty" form:"content"` //消息的内容
 }
@@ -37,7 +36,7 @@ type Node struct {
 }
 
 //映射关系表
-var clientMap map[int64]*Node = make(map[int64]*Node, 0)
+var clientMap map[string]*Node = make(map[string]*Node)
 
 //读写锁
 var rwlocker sync.RWMutex
@@ -48,8 +47,8 @@ func Chat(c *gin.Context) {
 
 	uid := c.Query("uid")
 	token := c.Query("token")
-	userId, _ := strconv.ParseInt(uid, 10, 64)
-	isvalida := checkToken(userId, token)
+	
+	isvalida := checkToken(uid, token)
 
 	conn, err := (&websocket.Upgrader{
 		CheckOrigin: func(r *http.Request) bool {
@@ -72,14 +71,14 @@ func Chat(c *gin.Context) {
 	// }
 	//todo userid和node形成绑定关系
 	rwlocker.Lock()
-	clientMap[userId] = node
+	clientMap[uid] = node
 	rwlocker.Unlock()
 	//todo 完成发送逻辑,con
 	go sendproc(node)
 	//todo 完成接收逻辑
 	go recvproc(node)
 	//
-	sendMsg(userId, []byte("ok"))
+	sendMsg(uid, []byte("ok"))
 }
 
 //发送协程
@@ -97,7 +96,7 @@ func sendproc(node *Node) {
 }
 
 //todo 添加新的群ID到用户的groupset中
-func AddGroupId(userId, gid int64) {
+func AddGroupId(userId, gid string) {
 	//取得node
 	rwlocker.Lock()
 	node, ok := clientMap[userId]
@@ -145,7 +144,7 @@ func dispatch(data []byte) {
 	}
 }
 
-func sendMsg(userId int64, msg []byte) {
+func sendMsg(userId string, msg []byte) {
 	rwlocker.RLock()
 	node, ok := clientMap[userId]
 	rwlocker.RUnlock()
@@ -155,7 +154,7 @@ func sendMsg(userId int64, msg []byte) {
 }
 
 //检测是否有效
-func checkToken(userId int64, token string) bool {
+func checkToken(userId string, token string) bool {
 	//从数据库里面查询并比对
 	return true
 }
