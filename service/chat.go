@@ -151,6 +151,8 @@ func sendMsg(userId string, msg []byte) {
 	rwlocker.RUnlock()
 	if ok {
 		node.DataQueue <- msg
+	}else{
+		fmt.Println("111")
 	}
 }
 
