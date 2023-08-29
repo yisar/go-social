@@ -140,6 +140,7 @@ func dispatch(data []byte) {
 			}
 		}
 	case CMD_HEART:
+		sendMsg(msg.Uid, []byte("ok"))
 		//todo 一般啥都不做
 	}
 }
