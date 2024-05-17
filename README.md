@@ -1,4 +1,4 @@
-# footsie
+# go-social
 
 
 ## 扩展安装
